@@ -43,7 +43,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head />
+      <head>
+      <script defer src="/fontawesome/js/brands.js"></script>
+      <script defer src="/fontawesome/js/solid.js"></script>
+      <script defer src="/fontawesome/js/fontawesome.js"></script>
+      </head>
       <body
         className={cn("min-h-screen font-sans antialiased bg-primary-background", fontSans.variable)}
       >
@@ -54,7 +58,7 @@ export default function RootLayout({
                 <div className={cn("w-72 fixed p-4")}>
                   <div className={cn("w-full h-20 justify-start items-center absolute left-0 top-0 z-50 hidden")}> 
                     <a className={cn("ml-auto pointer-events-auto text-base px-8 py-12")}> 
-                      <i className="fas fa-ellipsis-v"></i> 
+                      <i className="fas fa-ellipsis-v"></i>
                     </a> 
                   </div>
                   <div className={cn("relative left-0 top-0 z-50 w-full p-6 h-auto bg-gradient-to-br from-gray-700 to-gray-800 text-center shadow-sm")}> 
@@ -67,6 +71,153 @@ export default function RootLayout({
                         <a href="https://arter.bslthemes.com">Artur Carter</a>
                     </h5>
                     <div className="art-sm-text">Front-end Developer<br/> Ui/UX Designer</div>
+                  </div>
+                  <div className="art-ls-social justify-center flex items-center space-between px-8 h-16 bg-gradient-to-br from-gray-700 to-gray-800 absolute bottom-0 shadow-sm left-0 w-full z-50"> 
+                    <a href="https://linkedin.com/" target="_blank"><i className="fab fa-linkedin"></i></a> 
+                    <a href="https://dribble.com/" target="_blank"><i className="fab fa-dribbble"></i></a> 
+                    <a href="https://behance.com/" target="_blank"><i className="fab fa-behance"></i></a>
+                    <a href="https://github.com/" target="_blank"><i className="fab fa-github"></i></a>
+                    <a href="https://twitter.com/" target="_blank"><i className="fab fa-twitter"></i></a>
+                  </div>
+                  <div className="art-scroll-frame overflow-auto pb-20 scroll-smooth transform translate-x-0 translate-y-0 translate-z-0 h-full -mb-8"> 
+                    <div className="art-table p-6 bg-gray-800 text-white rounded">
+                      <ul>
+                        <li><h6>Residence:</h6><span>Canada</span></li>
+                        <li><h6>City:</h6><span>Toronto</span></li>
+                        <li><h6>Age:</h6><span>26</span></li>
+                      </ul>
+                      <div className="art-ls-divider"></div>
+                      <div className="art-lang-skills p-30-15"> 
+                        <div className="art-lang-skills-item w-1/3 inline-block align-top text-sm text-center mb-4">
+                          <div id="circleprog1-1" data-type="circles" data-value="100" className="art-cirkle-progress art-skills-progress">
+                            <svg viewBox="0 0 100 100" style={{display: 'block', width: '100%'}}>
+                              <path d="M 50,50 m 0,-46.5 a 46.5,46.5 0 1 1 0,93 a 46.5,46.5 0 1 1 0,-93" stroke="#eee" stroke-width="7" fill-opacity="0"></path>
+                              <path d="M 50,50 m 0,-46.5 a 46.5,46.5 0 1 1 0,93 a 46.5,46.5 0 1 1 0,-93" stroke="#555" stroke-width="7" fill-opacity="0"></path>
+                            </svg>
+                            <div className="progressbar-text" style={{position: 'absolute', left: '50%', top: '50%', padding: '0px', margin: '0px', transform: 'translate(-50%, -50%)', color: 'rgb(85, 85, 85)'}}>100</div>
+                          </div> 
+                          <h6>French</h6>
+                        </div>
+                        <div className="art-lang-skills-item w-1/3 inline-block align-top text-sm text-center mb-4">
+                          <div id="circleprog1-2" data-type="circles" data-value="90" className="art-cirkle-progress art-skills-progress" style={{position: 'relative'}}>
+                            <svg viewBox="0 0 100 100" style={{display: 'block', width: '100%'}}>
+                              <path d="M 50,50 m 0,-46.5 a 46.5,46.5 0 1 1 0,93 a 46.5,46.5 0 1 1 0,-93" stroke="#eee" stroke-width="7" fill-opacity="0"></path>
+                              <path d="M 50,50 m 0,-46.5 a 46.5,46.5 0 1 1 0,93 a 46.5,46.5 0 1 1 0,-93" stroke="#555" stroke-width="7" fill-opacity="0" style={{strokeDasharray: '292.273, 292.273', strokeDashoffset: '29.2273'}}></path>
+                            </svg>
+                          <div className="progressbar-text" style={{position: 'absolute', left: '50%', top: '50%', padding: '0px', margin: '0px', transform: 'translate(-50%, -50%)', color: 'rgb(85, 85, 85)'}}>90</div>
+                          </div> 
+                          <h6>English</h6>
+                          </div> 
+                          <div className="art-lang-skills-item w-1/3 inline-block align-top text-sm text-center mb-4">
+                            <div id="circleprog1-3" data-type="circles" data-value="70" className="art-cirkle-progress art-skills-progress" style={{position: 'relative'}}>
+                              <svg viewBox="0 0 100 100" style={{display: 'block', width: '100%'}}>
+                                <path d="M 50,50 m 0,-46.5 a 46.5,46.5 0 1 1 0,93 a 46.5,46.5 0 1 1 0,-93" stroke="#eee" stroke-width="7" fill-opacity="0"></path>
+                                <path d="M 50,50 m 0,-46.5 a 46.5,46.5 0 1 1 0,93 a 46.5,46.5 0 1 1 0,-93" stroke="#555" stroke-width="7" fill-opacity="0" style={{strokeDasharray: '292.273, 292.273', strokeDashoffset: '87.682'}}></path>
+                              </svg>
+                              <div className="progressbar-text" style={{position: 'absolute', left: '50%', top: '50%', padding: '0px', margin: '0px', transform: 'translate(-50%, -50%)', color: 'rgb(85, 85, 85)'}}>70</div>
+                            </div>
+                            <h6>Spanish</h6>
+                          </div>
+                      </div>
+                      <div className="art-ls-divider"></div>
+                      <div className="art-hard-skills p-30-15">
+                        <div className="art-hard-skills-item">
+                          <div className="art-skill-heading"> 
+                            <h6>html</h6>
+                          </div> 
+                          <div className="art-line-progress"> 
+                            <div id="lineprog2-1" data-type="progress" data-value="90" className="art-skills-progress" style={{position: 'relative'}}>
+                              <svg viewBox="0 0 100 1.72" preserveAspectRatio="none" style={{width: '100%', height: '100%'}}>
+                                <path d="M 0,0.86 L 100,0.86" stroke="#eee" stroke-width="1.72" fill-opacity="0"></path>
+                                <path d="M 0,0.86 L 100,0.86" stroke="#555" stroke-width="1.72" fill-opacity="0" style={{strokeDasharray: '100, 100', strokeDashoffset: '10'}}></path>
+                              </svg>
+                              <div className="progressbar-text" style={{position: 'absolute', left: '50%', top: '50%', padding: '0px', margin: '0px', transform: 'translate(-50%, -50%)', color: 'rgb(85, 85, 85)'}}>90 %</div>
+                            </div>
+                          </div> 
+                        </div>
+                        <div className="art-hard-skills-item">
+                          <div className="art-skill-heading"> 
+                            <h6>html</h6>
+                          </div> 
+                          <div className="art-line-progress"> 
+                            <div id="lineprog2-1" data-type="progress" data-value="90" className="art-skills-progress" style={{position: 'relative'}}>
+                              <svg viewBox="0 0 100 1.72" preserveAspectRatio="none" style={{width: '100%', height: '100%'}}>
+                                <path d="M 0,0.86 L 100,0.86" stroke="#eee" stroke-width="1.72" fill-opacity="0"></path>
+                                <path d="M 0,0.86 L 100,0.86" stroke="#555" stroke-width="1.72" fill-opacity="0" style={{strokeDasharray: '100, 100', strokeDashoffset: '10'}}></path>
+                              </svg>
+                              <div className="progressbar-text" style={{position: 'absolute', left: '50%', top: '50%', padding: '0px', margin: '0px', transform: 'translate(-50%, -50%)', color: 'rgb(85, 85, 85)'}}>90 %</div>
+                            </div>
+                          </div> 
+                        </div>
+                        <div className="art-hard-skills-item">
+                          <div className="art-skill-heading"> 
+                            <h6>html</h6>
+                          </div> 
+                          <div className="art-line-progress"> 
+                            <div id="lineprog2-1" data-type="progress" data-value="90" className="art-skills-progress" style={{position: 'relative'}}>
+                              <svg viewBox="0 0 100 1.72" preserveAspectRatio="none" style={{width: '100%', height: '100%'}}>
+                                <path d="M 0,0.86 L 100,0.86" stroke="#eee" stroke-width="1.72" fill-opacity="0"></path>
+                                <path d="M 0,0.86 L 100,0.86" stroke="#555" stroke-width="1.72" fill-opacity="0" style={{strokeDasharray: '100, 100', strokeDashoffset: '10'}}></path>
+                              </svg>
+                              <div className="progressbar-text" style={{position: 'absolute', left: '50%', top: '50%', padding: '0px', margin: '0px', transform: 'translate(-50%, -50%)', color: 'rgb(85, 85, 85)'}}>90 %</div>
+                            </div>
+                          </div> 
+                        </div>
+                        <div className="art-hard-skills-item">
+                          <div className="art-skill-heading"> 
+                            <h6>html</h6>
+                          </div> 
+                          <div className="art-line-progress"> 
+                            <div id="lineprog2-1" data-type="progress" data-value="90" className="art-skills-progress" style={{position: 'relative'}}>
+                              <svg viewBox="0 0 100 1.72" preserveAspectRatio="none" style={{width: '100%', height: '100%'}}>
+                                <path d="M 0,0.86 L 100,0.86" stroke="#eee" stroke-width="1.72" fill-opacity="0"></path>
+                                <path d="M 0,0.86 L 100,0.86" stroke="#555" stroke-width="1.72" fill-opacity="0" style={{strokeDasharray: '100, 100', strokeDashoffset: '10'}}></path>
+                              </svg>
+                              <div className="progressbar-text" style={{position: 'absolute', left: '50%', top: '50%', padding: '0px', margin: '0px', transform: 'translate(-50%, -50%)', color: 'rgb(85, 85, 85)'}}>90 %</div>
+                            </div>
+                          </div> 
+                        </div>
+                        <div className="art-hard-skills-item">
+                          <div className="art-skill-heading"> 
+                            <h6>html</h6>
+                          </div> 
+                          <div className="art-line-progress"> 
+                            <div id="lineprog2-1" data-type="progress" data-value="90" className="art-skills-progress" style={{position: 'relative'}}>
+                              <svg viewBox="0 0 100 1.72" preserveAspectRatio="none" style={{width: '100%', height: '100%'}}>
+                                <path d="M 0,0.86 L 100,0.86" stroke="#eee" stroke-width="1.72" fill-opacity="0"></path>
+                                <path d="M 0,0.86 L 100,0.86" stroke="#555" stroke-width="1.72" fill-opacity="0" style={{strokeDasharray: '100, 100', strokeDashoffset: '10'}}></path>
+                              </svg>
+                              <div className="progressbar-text" style={{position: 'absolute', left: '50%', top: '50%', padding: '0px', margin: '0px', transform: 'translate(-50%, -50%)', color: 'rgb(85, 85, 85)'}}>90 %</div>
+                            </div>
+                          </div> 
+                        </div>
+                        <div className="art-hard-skills-item">
+                          <div className="art-skill-heading"> 
+                            <h6>html</h6>
+                          </div> 
+                          <div className="art-line-progress"> 
+                            <div id="lineprog2-1" data-type="progress" data-value="90" className="art-skills-progress" style={{position: 'relative'}}>
+                              <svg viewBox="0 0 100 1.72" preserveAspectRatio="none" style={{width: '100%', height: '100%'}}>
+                                <path d="M 0,0.86 L 100,0.86" stroke="#eee" stroke-width="1.72" fill-opacity="0"></path>
+                                <path d="M 0,0.86 L 100,0.86" stroke="#555" stroke-width="1.72" fill-opacity="0" style={{strokeDasharray: '100, 100', strokeDashoffset: '10'}}></path>
+                              </svg>
+                              <div className="progressbar-text" style={{position: 'absolute', left: '50%', top: '50%', padding: '0px', margin: '0px', transform: 'translate(-50%, -50%)', color: 'rgb(85, 85, 85)'}}>90 %</div>
+                            </div>
+                          </div> 
+                        </div>
+                      </div>
+                      <div className="art-ls-divider"></div>
+                      <ul className="art-knowledge-list p-15-0"> 
+                        <li><i className="fas fa-check"></i>Bootstrap, Materialize</li> 
+                        <li><i className="fas fa-check"></i>Stylus, Sass, Less</li> 
+                        <li><i className="fas fa-check"></i>Gulp, Webpack, Grunt</li>
+                        <li><i className="fas fa-check"></i>GIT knowledge</li>
+                      </ul>
+                      <div className="art-ls-divider"></div>
+                      <div className="art-links-frame p-15-15"> 
+                        <a href="https://drive.google.com/" className="art-link" target="_blank"> Download cv <i className="fas fa-download"></i></a>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </InfoBar>
