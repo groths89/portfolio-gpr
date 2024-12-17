@@ -25,22 +25,9 @@ const ExampleJsx = () => {
     <article className="prose-m-none">
       <h1>
         <Balancer>
-          Hello World, welcome to the Next.js and WordPress Starter by{" "}
-          <a href="https://9d8.dev">9d8</a>.
+          Hello World, welcome to the Next.js and WordPress Starter.
         </Balancer>
       </h1>
-      {/* Vercel Clone Starter */}
-      <a
-        className="h-16 block"
-        href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2F9d8dev%2Fnext-wp&env=WORDPRESS_URL,WORDPRESS_HOSTNAME&envDescription=Add%20WordPress%20URL%20with%20Rest%20API%20enabled%20(ie.%20https%3A%2F%2Fwp.example.com)%20abd%20the%20hostname%20for%20Image%20rendering%20in%20Next%20JS%20(ie.%20wp.example.com)&project-name=next-wp&repository-name=next-wp&demo-title=Next%20JS%20and%20WordPress%20Starter&demo-url=https%3A%2F%2Fwp.9d8.dev"
-      >
-        {/* eslint-disable-next-line */}
-        <img
-          className="not-prose my-4"
-          src="https://vercel.com/button"
-          alt="Deploy with Vercel"
-        />
-      </a>
       <p>
         This is <a href="https://github.com/9d8dev/next-wp">next-wp</a>, created
         as a way to build WordPress sites with Next.js at rapid speed. This

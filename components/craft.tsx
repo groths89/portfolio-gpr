@@ -27,21 +27,6 @@ const Layout = ({ children, className }: LayoutProps) => {
 };
 
 // Main Component
-type InfoBarProps = {
-  children: React.ReactNode;
-  className?: string;
-  id?: string;
-};
-
-const InfoBar = ({ children, className, id }: InfoBarProps) => {
-  return (
-    <div className={cn("bg-gray-900 w-72 min-w-72 h-full relative z-50 shadow-sm transition-all duration-550 ease-in-out p-0 px-4", className)} id={id}>
-      {children}
-    </div>
-  )
-}
-
-// Main Component
 type MainProps = {
   children: React.ReactNode;
   className?: string;
@@ -50,7 +35,7 @@ type MainProps = {
 
 const Main = ({ children, className, id }: MainProps) => {
   return (
-    <main
+    <div
       className={cn(
         // `Main` Specific Styles
         "max-w-none prose-p:m-0",
@@ -73,7 +58,7 @@ const Main = ({ children, className, id }: MainProps) => {
       id={id}
     >
       {children}
-    </main>
+    </div>
   );
 };
 
@@ -152,4 +137,4 @@ const Article = ({
   );
 };
 
-export { Layout, InfoBar, Main, Section, Container, Article };
+export { Layout, Main, Section, Container, Article };
