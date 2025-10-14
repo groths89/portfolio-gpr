@@ -20,7 +20,14 @@ const config = {
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-sans)", ...fontFamily.sans],
+        // Use the Titillium Web variable
+        heading: ['var(--font-heading)', ...fontFamily.sans],
+        
+        // Use the Inter variable
+        body: ['var(--font-body)', ...fontFamily.sans], 
+        
+        // Use the Fira Code variable
+        mono: ['var(--font-mono)', ...fontFamily.mono], 
       },
       colors: {
         'primary-background': "#191923",

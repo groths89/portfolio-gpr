@@ -4,6 +4,7 @@ import Balancer from "react-wrap-balancer";
 
 // Components
 import Link from "next/link";
+import HomePage from "@/components/home/home-page";
 
 // Icons
 import { File, Pen, Tag, Boxes, User, Folder } from "lucide-react";
@@ -11,11 +12,7 @@ import { File, Pen, Tag, Boxes, User, Folder } from "lucide-react";
 // This page is using the craft.tsx component and design system
 export default function Home() {
   return (
-    <Section>
-      <Container>
-        <ExampleJsx />
-      </Container>
-    </Section>
+    <HomePage />
   );
 }
 
