@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
 import { ThemeToggle } from '@/components/theme/theme-toggle';
 import { MobileNav } from '@/components/nav/mobile-nav';
-import { SearchIcon } from 'lucide-react';
+import { SearchIcon, Shield, Home, User, FolderOpen, Lock } from 'lucide-react';
 
 // Utility function to convert path to a display name
 const getDisplayTitle = (pathname: string) => {
@@ -29,43 +29,97 @@ const TopBar = () => {
   );
 
   return (
-    <header className={topBarClasses}>
-      <div className="w-full h-full max-w-[1440px] mx-auto px-4 md:px-8 flex justify-between items-center">
+    <div className={topBarClasses}>
+      <header className={topBarClasses}>
+        <div className="w-full h-full max-w-[1440px] mx-auto px-4 md:px-8 flex justify-between items-center">
 
-        <div className="flex-shrink-0">
-          <Link href="/" className="text-xl font-mono uppercase tracking-widest text-foreground hover:text-accent transition-colors">
-            GPR <span className="hidden" data-clue="online"></span> {/* Branding & Hidden Clue */}
-          </Link>
-        </div>
-
-        <div className="hidden md:flex flex-grow justify-center">
-          <div className={cn(
-            "text-sm font-mono tracking-wider uppercase px-4 py-1 rounded-sm",
-            "bg-card/50 transition-colors duration-300",
-            // Neon Glow effect on the location box
-            "shadow-md",
-            pathname.startsWith('/case-file') 
-                ? "text-color-destructive shadow-color-destructive/30" 
-                : "text-color-accent shadow-color-accent/30"
-          )}>
-            {systemPath}
+          <div className="flex-shrink-0">
+            <Link href="/" className="flex items-center gap-2 group">
+              <Shield className="h-6 w-6 text-primary animate-pulse" />
+              <span className="font-bold text-lg neon-text">G. ROTHSTEIN</span>
+            </Link>
           </div>
-        </div>
+          
+          <div className="flex gap-6">
+              <Link
+                href="/"
+                className={({ isActive }) =>
+                  `flex items-center gap-2 transition-colors hover:text-primary ${
+                    isActive ? "text-primary" : "text-foreground/70"
+                  }`
+                }
+              >
+                <Home className="h-4 w-4" />
+                <span>HQ</span>
+              </Link>
+              
+              <Link
+                href="/profile"
+                className={({ isActive }) =>
+                  `flex items-center gap-2 transition-colors hover:text-primary ${
+                    isActive ? "text-primary" : "text-foreground/70"
+                  }`
+                }
+              >
+                <User className="h-4 w-4" />
+                <span>Profile</span>
+              </Link>
+              
+              <Link
+                href="/cases"
+                className={({ isActive }) =>
+                  `flex items-center gap-2 transition-colors hover:text-primary ${
+                    isActive ? "text-primary" : "text-foreground/70"
+                  }`
+                }
+              >
+                <FolderOpen className="h-4 w-4" />
+                <span>Cases</span>
+              </Link>
+              
+              <Link
+                href="/classified"
+                className={({ isActive }) =>
+                  `flex items-center gap-2 transition-colors hover:text-destructive ${
+                    isActive ? "text-destructive" : "text-foreground/70"
+                  }`
+                }
+              >
+                <Lock className="h-4 w-4" />
+                <span>Classified</span>
+              </Link>
 
-        <div className="flex items-center space-x-4 flex-shrink-0">
-            <button className="text-accent hover:text-foreground transition-colors" aria-label="Search the portfolio">
-                <i>
-                    <SearchIcon />
-                </i>
-            </button>
-          <ThemeToggle />
-          <div className="md:hidden">
-            <MobileNav />
-          </div>
+              <div className="flex items-center space-x-4 flex-shrink-0">
+                  <button className="text-accent hover:text-foreground transition-colors" aria-label="Search the portfolio">
+                      <i>
+                          <SearchIcon />
+                      </i>
+                  </button>
+                <ThemeToggle />
+                <div className="md:hidden">
+                  <MobileNav />
+                </div>
+              </div>
+            </div>
         </div>
-
-      </div>
-    </header>
+      </header>
+      {/* Terminal Header */}
+      <div className="mt-20 border-b border-primary/30 bg-card/30 backdrop-blur-sm">
+        <div className="container mx-auto px-4 py-2">
+            <p className="text-xs md:text-sm text-muted-foreground font-mono">
+              <div className={cn(
+              "text-sm font-mono tracking-wider uppercase px-4 py-1 rounded-sm",
+              "transition-colors duration-300",
+              pathname.startsWith('/case-file') 
+                  ? "text-color-destructive shadow-color-destructive/30" 
+                  : "text-color-accent shadow-color-accent/30"
+              )}>
+              {systemPath}
+              </div>
+          </p>
+        </div>
+      </div>      
+    </div>
   );
 };
 

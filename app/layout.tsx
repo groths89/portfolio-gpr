@@ -88,7 +88,6 @@ export default function RootLayout({
                     </div>
                 </div>
                 <TopBar /> 
-                
                 <div className={cn("app-content w-full pt-[80px] overflow-y-auto")}> 
                   <Main>
                     {children}     

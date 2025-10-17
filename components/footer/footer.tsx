@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 
 const Footer = () => {
     const footerClasses = cn(
-        "border-t border-border/80, text-secondary-foreground text-sm",
+        "border-t border-border/80, text-secondary text-sm",
         "w-full max-w-[1440px] mx-auto py-4 px-4 md:px-8"
     );
   return (
@@ -30,7 +30,7 @@ const Footer = () => {
         <div className={footerClasses}>
                 <div className="flex items-center gap-4">
                     <p className="font-mono text-xs md:text-sm tracking-wide">
-                        // CASE ARCHIVE: <span className="text-accent font-semibold">GPR.DEV</span> /
+                        // CASE ARCHIVE: <span className="neon-text font-semibold">GPR.DEV</span> /
                         <span className="text-secondary-foreground ml-1">© {new Date().getFullYear()}</span>
                         <br />
                         <Balancer>{metadata.description}</Balancer>
