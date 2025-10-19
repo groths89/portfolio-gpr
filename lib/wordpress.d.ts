@@ -229,6 +229,29 @@ export type FeaturedMedia = {
   source_url: string;
 };
 
+export type Skills = {
+id: number,
+date: string,
+date_gmt: string,
+guid: {},
+modified: string,
+modified_gmt: string,
+slug: string,
+status: string,
+type: string,
+link: string,
+title: {},
+content: {},
+featured_media: number,
+template: string,
+meta: {},
+"skill-category": [],
+acf: {},
+yoast_head: string,
+yoast_head_json: {},
+_links: {}
+}
+
 type FilterBarProps = {
   authors: Author[];
   tags: Tag[];

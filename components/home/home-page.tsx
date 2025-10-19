@@ -10,6 +10,7 @@ import { projects } from '@/data/projects';
 
 import ProjectCard from '@/components/ui/project-card';
 import { ArrowRight, Badge, Download, FolderOpen, Shield } from 'lucide-react';
+import { getAllSkills, getSkillsById } from '@/lib/wordpress';
 
 const HomePage = () => {
     const router = useRouter();
@@ -19,10 +20,10 @@ const HomePage = () => {
         router.push('/projects'); 
     };
 
-    const technologies = [
-        "REACT", "NEXT.JS", "TYPESCRIPT", "NODE.JS", 
-        "AWS", "KUBERNETES", "PYTHON", "TAILWIND CSS"
-    ];
+    const technologies = getAllSkills();
+    console.log(technologies);
+
+
 
   return (
         <main className="flex min-h-screen w-full flex-col items-center justify-center p-4">
@@ -93,11 +94,11 @@ const HomePage = () => {
                 </h2>
                 
                 <div className="flex flex-wrap gap-3 mb-8">
-                    {['React', 'Next.js', 'TypeScript', 'Node.js', 'AWS', 'Kubernetes', 'Python', 'Tailwind CSS'].map(skill => (
-                        <div key={skill} className="font-mono text-sm uppercase tracking-wide px-3 py-1 border border-primary text-primary bg-primary/10 rounded-sm">
-                            {skill}
+                    {(
+                        <div key={"skill"} className="font-mono text-sm uppercase tracking-wide px-3 py-1 border border-primary text-primary bg-primary/10 rounded-sm">
+                            {}
                         </div>
-                    ))}
+                    )}
                 </div>
                 
                 <Link href="/about#skills" className="font-mono text-primary hover:text-primary/80 transition-colors flex items-center gap-2">

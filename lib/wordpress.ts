@@ -11,6 +11,7 @@ import {
   Page,
   Author,
   FeaturedMedia,
+  Skills
 } from "./wordpress.d";
 
 // WordPress Config
@@ -195,4 +196,19 @@ export async function getFeaturedMediaById(id: number): Promise<FeaturedMedia> {
   const response = await fetch(url);
   const featuredMedia: FeaturedMedia = await response.json();
   return featuredMedia;
+}
+
+export async function getAllSkills(): Promise<Skills[]> {
+  const url = getUrl(`/wp-json/wp/v2/skills`);
+  const response = await fetch(url);
+  const skills: Skills[] = await response.json();
+  return skills;
+}
+
+
+export async function getSkillsById(id: number): Promise<Skills> {
+  const url = getUrl(`/wp-json/wp/v2/skills/${id}`);
+  const response = await fetch(url);
+  const skill: Skills = await response.json();
+  return skill;
 }
