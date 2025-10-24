@@ -12,13 +12,17 @@ import SkillsList from '@/components/ui/skills-list';
 
 import { ArrowRight, Badge, Download, FolderOpen, Shield } from 'lucide-react';
 import { getAllSkills, getSkillsById, Skills } from '@/lib/wordpress';
+import { useEffect, useState } from 'react';
 
-const HomePage = async () => {
-    const handleAccess = () => {
-        console.log("Accessing secured archives...");
-    };
+const HomePage = () => {
+  const handleAccess = () => {
+    console.log("Accessing secured archives...");
+  };
+  const [technologies, setTechnologies] = useState<Skills[]>([]);
+  useEffect(() => {
+    getAllSkills().then(setTechnologies);
+    }, []);
 
-    const technologies = await getAllSkills();
 
   return (
         <main className="flex min-h-screen w-full flex-col items-center justify-center p-4">

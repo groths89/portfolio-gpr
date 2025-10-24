@@ -107,7 +107,7 @@ const TopBar = () => {
       <div className="mt-20 border-b border-primary/30 bg-card/30 backdrop-blur-sm">
         <div className="container mx-auto px-4 py-2">
             <p className="text-xs md:text-sm text-muted-foreground font-mono">
-              <div className={cn(
+              <span className={cn(
               "text-sm font-mono tracking-wider uppercase px-4 py-1 rounded-sm",
               "transition-colors duration-300",
               pathname.startsWith('/case-file') 
@@ -115,7 +115,7 @@ const TopBar = () => {
                   : "text-color-accent shadow-color-accent/30"
               )}>
               {systemPath}
-              </div>
+              </span>
           </p>
         </div>
       </div>      

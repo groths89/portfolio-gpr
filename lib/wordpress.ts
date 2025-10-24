@@ -18,9 +18,6 @@ import {
 
 const baseUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL;
 
-console.log(baseUrl)
-
-
 function getUrl(path: string, query?: Record<string, any>) {
     const params = query ? querystring.stringify(query) : null
   
