@@ -1,6 +1,7 @@
 "use client";
-import { Button } from '@/components/ui/button';
 
+import { Button } from '@/components/ui/button';
+import { useRouter } from "next/navigation";
 import Link from 'next/link';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
@@ -11,14 +12,20 @@ import ProjectCard from '@/components/ui/project-card';
 import SkillsList from '@/components/ui/skills-list';
 
 import { ArrowRight, Badge, Download, FolderOpen, Shield } from 'lucide-react';
-import { getAllSkills, getSkillsById, Skills } from '@/lib/wordpress';
+import { getAllSkills, getSkillsById } from '@/lib/wordpress';
 
-const HomePage = async () => {
+interface ClientHomePageProps {
+    
+}
+
+
+const ClientHomePage = (technologies: any) => {
+    const router = useRouter();
+
     const handleAccess = () => {
         console.log("Accessing secured archives...");
+        router.push('/projects'); 
     };
-
-    const technologies = await getAllSkills();
 
   return (
         <main className="flex min-h-screen w-full flex-col items-center justify-center p-4">
@@ -31,7 +38,7 @@ const HomePage = async () => {
                     {/* Left Content */}
                     <div>
                     <p className="text-sm md:text-base text-muted-foreground mb-4 font-mono">
-                        &#47;&#47; SOFTWARE DEVELOPER AND IT SPECIALIST
+                        (//)SOFTWARE DEVELOPER AND IT SPECIALIST
                     </p>
                     
                     <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-none">
@@ -166,4 +173,4 @@ const ImageWrapper = ({ src='', alt='', className='' }) => (
     </div>
 );
 
-export default HomePage;
+export default ClientHomePage;

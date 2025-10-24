@@ -16,7 +16,10 @@ import {
 
 // WordPress Config
 
-const baseUrl = process.env.WORDPRESS_URL;
+const baseUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL;
+
+console.log(baseUrl)
+
 
 function getUrl(path: string, query?: Record<string, any>) {
     const params = query ? querystring.stringify(query) : null
@@ -212,3 +215,5 @@ export async function getSkillsById(id: number): Promise<Skills> {
   const skill: Skills = await response.json();
   return skill;
 }
+export type { Skills };
+

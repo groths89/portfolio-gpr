@@ -240,8 +240,17 @@ slug: string,
 status: string,
 type: string,
 link: string,
-title: {},
-content: {},
+title: {
+  rendered: string
+},
+content: {
+  rendered: string,
+  protected: boolean
+},
+excerpt: {
+  rendered: string,
+  protected: boolean
+},
 featured_media: number,
 template: string,
 meta: {},
