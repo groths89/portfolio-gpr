@@ -100,7 +100,7 @@ const TopBar = () => {
                   <MobileNav />
                 </div>
               </div>
-            </div>
+          </div>
         </div>
       </header>
       {/* Terminal Header */}

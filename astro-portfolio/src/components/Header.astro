@@ -1,0 +1,134 @@
+---
+import { cn } from "@/lib/utils";
+import { SITE_TITLE } from "../consts";
+import HeaderLink from "./HeaderLink.astro";
+import { ThemeToggle } from "./Theme/theme-toggle.tsx";
+import { MobileNav } from "@/components/ui/nav/mobile-nav.tsx";
+import { SearchIcon, Shield, Home, User, FolderOpen, Lock } from "lucide-react";
+
+const getDisplayTitle = (pathname: string) => {
+  if (pathname === "/") return "C:\\GPR\\ARCHIVE\\HOME.CMD";
+  if (pathname.startsWith("/projects")) return "C:\\GPR\\ARCHIVE\\PROJECTS.DIR";
+  if (pathname.startsWith("/build")) return "C:\\GPR\\DATA\\BUILD_LOG.FILE";
+  if (pathname.startsWith("/learning")) return "C:\\GPR\\SYSTEM\\LEARN.LOG";
+  if (pathname.startsWith("/case-file"))
+    return "C:\\GPR\\ACCESS\\RESTRICTED.FILE";
+  return "C:\\GPR\\SYSTEM\\STATUS.OK";
+};
+
+const pathname = Astro.url.pathname;
+const systemPath = getDisplayTitle(pathname.toLowerCase());
+
+const topBarClasses = cn(
+  "fixed top-0 left-0 right-0 z-50 transition-colors duration-300",
+  "h-16 md:h-20 backdrop-blur-sm",
+  "border-b border-border/80",
+  "pl-0"
+);
+---
+
+<div class={topBarClasses}>
+  <header class={topBarClasses}>
+    <div
+      class="w-full h-full max-w-[1440px] mx-auto px-4 md:px-8 flex justify-between items-center"
+    >
+      <div class="flex-shrink-0">
+        <HeaderLink href="/" class="flex items-center gap-2 group">
+          <Shield className="h-6 w-6 text-secondary animate-pulse" />
+          <span class="font-bold text-lg neon-text">G. ROTHSTEIN</span>
+        </HeaderLink>
+      </div>
+
+      <div class="flex gap-6">
+        <HeaderLink
+          href="/"
+          class="flex items-center gap-2 transition-colors hover:text-primary"
+        >
+          <Home className="h-4 w-4" />
+          <span>HQ</span>
+        </HeaderLink>
+
+        <HeaderLink
+          href="/profile"
+          class="flex items-center gap-2 transition-colors hover:text-primary"
+        >
+          <User className="h-4 w-4" />
+          <span>Profile</span>
+        </HeaderLink>
+
+        <HeaderLink
+          href="/cases"
+          class="flex items-center gap-2 transition-colors hover:text-primary"
+        >
+          <FolderOpen className="h-4 w-4" />
+          <span>Cases</span>
+        </HeaderLink>
+
+        <HeaderLink
+          href="/classified"
+          class="flex items-center gap-2 transition-colors hover:text-primary"
+        >
+          <Lock className="h-4 w-4" />
+          <span>Classified</span>
+        </HeaderLink>
+
+        <div class="flex items-center space-x-4 flex-shrink-0">
+          <button
+            class="text-accent hover:text-foreground transition-colors"
+            aria-label="Search the portfolio"
+          >
+            <i>
+              <SearchIcon />
+            </i>
+          </button>
+          <ThemeToggle client:only />
+          <div class="md:hidden">
+            <MobileNav client:media="(max-width: 50em)" />
+          </div>
+        </div>
+      </div>
+      <div></div>
+    </div>
+  </header>
+</div>
+<style>
+  header {
+    margin: 0;
+    padding: 0 1em;
+    background: white;
+    box-shadow: 0 2px 8px rgba(var(--black), 5%);
+  }
+  h2 {
+    margin: 0;
+    font-size: 1em;
+  }
+
+  h2 a,
+  h2 a.active {
+    text-decoration: none;
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  nav a {
+    padding: 1em 0.5em;
+    color: var(--black);
+    border-bottom: 4px solid transparent;
+    text-decoration: none;
+  }
+  nav a.active {
+    text-decoration: none;
+    border-bottom-color: var(--accent);
+  }
+  .social-links,
+  .social-links a {
+    display: flex;
+  }
+  @media (max-width: 720px) {
+    .social-links {
+      display: none;
+    }
+  }
+</style>
