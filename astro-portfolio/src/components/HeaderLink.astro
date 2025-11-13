@@ -13,11 +13,11 @@ const isActive = href === pathname || href === "/" + (subpath?.[0] || "");
   <slot />
 </a>
 <style>
-  a {
-    display: inline-block;
+  a,
+  a.active,
+  a.visited {
     text-decoration: none;
-  }
-  a.active {
-    font-weight: bolder;
+    color: inherit;
+    margin: 0 1rem;
   }
 </style>

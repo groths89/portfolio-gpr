@@ -30,64 +30,59 @@ const topBarClasses = cn(
 <div class={topBarClasses}>
   <header class={topBarClasses}>
     <div
-      class="w-full h-full max-w-[1440px] mx-auto px-4 md:px-8 flex justify-between items-center"
+      class="w-full h-full max-w-[1440px] px-4 md:px-8 flex justify-between items-center"
     >
       <div class="flex-shrink-0">
         <HeaderLink href="/" class="flex items-center gap-2 group">
-          <Shield className="h-6 w-6 text-secondary animate-pulse" />
+          <Shield
+            client:load
+            className="h-6 w-6 text-secondary animate-pulse"
+          />
           <span class="font-bold text-lg neon-text">G. ROTHSTEIN</span>
         </HeaderLink>
       </div>
 
       <div class="flex gap-6">
-        <HeaderLink
-          href="/"
-          class="flex items-center gap-2 transition-colors hover:text-primary"
-        >
+        <HeaderLink href="/" class="flex flex-col gap-1 m-2 p-0">
           <Home className="h-4 w-4" />
           <span>HQ</span>
         </HeaderLink>
 
-        <HeaderLink
-          href="/profile"
-          class="flex items-center gap-2 transition-colors hover:text-primary"
-        >
+        <HeaderLink href="/profile" class="flex flex-col gap-1 m-2 p-0">
           <User className="h-4 w-4" />
           <span>Profile</span>
         </HeaderLink>
 
-        <HeaderLink
-          href="/cases"
-          class="flex items-center gap-2 transition-colors hover:text-primary"
-        >
+        <HeaderLink href="/cases" class="flex flex-col gap-1 m-2 p-0">
           <FolderOpen className="h-4 w-4" />
           <span>Cases</span>
         </HeaderLink>
 
-        <HeaderLink
-          href="/classified"
-          class="flex items-center gap-2 transition-colors hover:text-primary"
-        >
+        <HeaderLink href="/blog" class="flex flex-col gap-1 m-2 p-0">
+          <FolderOpen className="h-4 w-4" />
+          <span>Blog</span>
+        </HeaderLink>
+
+        <HeaderLink href="/classified" class="flex flex-col gap-1 m-2 p-0">
           <Lock className="h-4 w-4" />
           <span>Classified</span>
         </HeaderLink>
 
-        <div class="flex items-center space-x-4 flex-shrink-0">
+        <div class="flex items-center space-x-4 flex-shrink-0 gap-1 m-2 p-0">
           <button
             class="text-accent hover:text-foreground transition-colors"
             aria-label="Search the portfolio"
           >
             <i>
-              <SearchIcon />
+              <SearchIcon className="h-6 w-6" />
             </i>
           </button>
-          <ThemeToggle client:only />
+          <ThemeToggle client:load />
           <div class="md:hidden">
             <MobileNav client:media="(max-width: 50em)" />
           </div>
         </div>
       </div>
-      <div></div>
     </div>
   </header>
 </div>
@@ -95,7 +90,6 @@ const topBarClasses = cn(
   header {
     margin: 0;
     padding: 0 1em;
-    background: white;
     box-shadow: 0 2px 8px rgba(var(--black), 5%);
   }
   h2 {
@@ -114,7 +108,6 @@ const topBarClasses = cn(
   }
   nav a {
     padding: 1em 0.5em;
-    color: var(--black);
     border-bottom: 4px solid transparent;
     text-decoration: none;
   }

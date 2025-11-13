@@ -118,7 +118,7 @@
   }
 
   header {
-    background-color: hsl(var(--background));
+    background: hsl(var(--background));
     color: hsl(var(--foreground));
     width: 98vw;
     height: 5rem;
@@ -187,6 +187,41 @@
     clip-path: inset(50%);
     /* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
     white-space: nowrap;
+  }
+
+  astro-island {
+    display: contents;
+  }
+
+  astro-island button {
+    display: inline-block;
+    padding: 0.25rem;
+    width: 40px;
+    height: 40px;
+    color: hsl(var(--foreground));
+    background-color: transparent;
+    border: 1px solid hsl(var(--input));
+    border-radius: var(--radius);
+    cursor: pointer;
+  }
+
+  astro-island button:hover {
+    background-color: hsl(var(--accent));
+    color: hsl(var(--background));
+  }
+
+  button[aria-label="Search the portfolio"] {
+    display: inline-block;
+    padding: 0.25rem;
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    color: hsl(var(--accent));
+    border: none;
+    cursor: pointer;
+  }
+  button[aria-label="Search the portfolio"]:hover {
+    color: hsl(var(--foreground));
   }
 }
 
