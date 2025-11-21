@@ -2,8 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import { Button } from './button';
-import Link from 'next/link';
-import { ReactElement, JSXElementConstructor, ReactNode, AwaitedReactNode, Key } from 'react';
+import HeaderLink from '../HeaderLink.astro';
 
 const ProjectCard = ({project, isClassified = false}) => {
     const cardBorder = isClassified 
@@ -48,9 +47,9 @@ const ProjectCard = ({project, isClassified = false}) => {
 
             {/* 5. ACTION */}
             <Button asChild size="default" variant={buttonVariant} className="w-full font-mono uppercase tracking-wider">
-                <Link href={linkHref}>
+                <HeaderLink href={linkHref}>
                     {buttonText}
-                </Link>
+                </HeaderLink>
             </Button>
         </div>
     );

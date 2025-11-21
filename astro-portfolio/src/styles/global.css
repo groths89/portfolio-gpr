@@ -3,9 +3,7 @@
   https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
   License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
  */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 @layer base {
   :root {
@@ -119,9 +117,18 @@
 
   header {
     background: hsl(var(--background));
-    color: hsl(var(--foreground));
-    width: 98vw;
     height: 5rem;
+    border-bottom: 1px solid hsl(var(--border));
+  }
+
+  header .path-wrapper {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid hsl(var(--border));
+  }
+
+  footer {
+    border-top: 1px solid hsl(var(--border));
   }
 
   footer p {
@@ -156,12 +163,6 @@
     z-index: 9999;
   }
 
-  main {
-    width: 720px;
-    max-width: calc(100% - 2em);
-    margin: auto;
-    padding: 3em 1em;
-  }
   @media (max-width: 720px) {
     body {
       font-size: 18px;
@@ -191,6 +192,7 @@
 
   astro-island {
     display: contents;
+    width: 100%;
   }
 
   astro-island button {

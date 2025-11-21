@@ -4,7 +4,14 @@ import { SITE_TITLE } from "../consts";
 import HeaderLink from "./HeaderLink.astro";
 import { ThemeToggle } from "./Theme/theme-toggle.tsx";
 import { MobileNav } from "@/components/ui/nav/mobile-nav.tsx";
-import { SearchIcon, Shield, Home, User, FolderOpen, Lock } from "lucide-react";
+import {
+  SearchIcon,
+  Shield,
+  Home,
+  User,
+  FolderOpen,
+  Lock,
+} from "@lucide/astro";
 
 const getDisplayTitle = (pathname: string) => {
   if (pathname === "/") return "C:\\GPR\\ARCHIVE\\HOME.CMD";
@@ -19,52 +26,49 @@ const getDisplayTitle = (pathname: string) => {
 const pathname = Astro.url.pathname;
 const systemPath = getDisplayTitle(pathname.toLowerCase());
 
-const topBarClasses = cn(
-  "fixed top-0 left-0 right-0 z-50 transition-colors duration-300",
-  "h-16 md:h-20 backdrop-blur-sm",
-  "border-b border-border/80",
-  "pl-0"
+const headerClasses = cn(
+  "sticky top-0 z-50",
+  "bg-background/80 backdrop-blur-sm border-b border-border/80"
 );
 ---
 
-<div class={topBarClasses}>
-  <header class={topBarClasses}>
+<div
+  class="fixed top-0 left-0 right-0 z-50 transition-colors duration-300 h-16 md:h-20 backdrop-blur-sm bg-background/95 border-b border-border/80 pl-0"
+>
+  <header class={headerClasses}>
     <div
-      class="w-full h-full max-w-[1440px] px-4 md:px-8 flex justify-between items-center"
+      class="w-full h-full max-w-[1440px] mx-auto px-4 md:px-2 flex justify-between items-center"
     >
       <div class="flex-shrink-0">
         <HeaderLink href="/" class="flex items-center gap-2 group">
-          <Shield
-            client:load
-            className="h-6 w-6 text-secondary animate-pulse"
-          />
-          <span class="font-bold text-lg neon-text">G. ROTHSTEIN</span>
+          <Shield class="text-lg h-6 w-6 animate-pulse" />
+          <span class="text-xl font-bold neon-text">G. ROTHSTEIN</span>
         </HeaderLink>
       </div>
 
-      <div class="flex gap-6">
-        <HeaderLink href="/" class="flex flex-col gap-1 m-2 p-0">
-          <Home className="h-4 w-4" />
+      <div class="flex gap-6 items-center">
+        <HeaderLink href="/" class="">
+          <Home class="h-4 w-4" />
           <span>HQ</span>
         </HeaderLink>
 
-        <HeaderLink href="/profile" class="flex flex-col gap-1 m-2 p-0">
-          <User className="h-4 w-4" />
+        <HeaderLink href="/profile" class="">
+          <User class="h-4 w-4" />
           <span>Profile</span>
         </HeaderLink>
 
-        <HeaderLink href="/cases" class="flex flex-col gap-1 m-2 p-0">
-          <FolderOpen className="h-4 w-4" />
+        <HeaderLink href="/cases" class="">
+          <FolderOpen class="h-4 w-4" />
           <span>Cases</span>
         </HeaderLink>
 
-        <HeaderLink href="/blog" class="flex flex-col gap-1 m-2 p-0">
-          <FolderOpen className="h-4 w-4" />
+        <HeaderLink href="/blog" class="">
+          <FolderOpen class="h-4 w-4" />
           <span>Blog</span>
         </HeaderLink>
 
-        <HeaderLink href="/classified" class="flex flex-col gap-1 m-2 p-0">
-          <Lock className="h-4 w-4" />
+        <HeaderLink href="/classified" class="">
+          <Lock class="h-4 w-4" />
           <span>Classified</span>
         </HeaderLink>
 
@@ -74,7 +78,7 @@ const topBarClasses = cn(
             aria-label="Search the portfolio"
           >
             <i>
-              <SearchIcon className="h-6 w-6" />
+              <SearchIcon class="h-6 w-6" />
             </i>
           </button>
           <ThemeToggle client:load />
@@ -85,43 +89,21 @@ const topBarClasses = cn(
       </div>
     </div>
   </header>
+  <div class="path-wrapper mt-20 border-b bg-card/30 backdrop-blur-sm">
+    <div class="container mx-auto px-4 py-2">
+      <p class="text-xs md:text-sm font-mono">
+        <span
+          class={cn(
+            "text-sm font-mono tracking-wider uppercase px-4 py-1 rounded-sm",
+            "transition-colors duration-300",
+            pathname.startsWith("/case-file")
+              ? "text-destructive-foreground shadow-color-destructive/30"
+              : "text-muted-foreground shadow-color-accent/30"
+          )}
+        >
+          {systemPath}
+        </span>
+      </p>
+    </div>
+  </div>
 </div>
-<style>
-  header {
-    margin: 0;
-    padding: 0 1em;
-    box-shadow: 0 2px 8px rgba(var(--black), 5%);
-  }
-  h2 {
-    margin: 0;
-    font-size: 1em;
-  }
-
-  h2 a,
-  h2 a.active {
-    text-decoration: none;
-  }
-  nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  nav a {
-    padding: 1em 0.5em;
-    border-bottom: 4px solid transparent;
-    text-decoration: none;
-  }
-  nav a.active {
-    text-decoration: none;
-    border-bottom-color: var(--accent);
-  }
-  .social-links,
-  .social-links a {
-    display: flex;
-  }
-  @media (max-width: 720px) {
-    .social-links {
-      display: none;
-    }
-  }
-</style>

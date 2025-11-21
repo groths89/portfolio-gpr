@@ -11,9 +11,9 @@ import "../styles/global.css";
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
   <body>
-    <div class="app overflow-visible p-4 w-full h-full m-auto relative">
+    <div class="app overflow-visible p-4 w-full h-full relative">
       <div
-        class="app-wrapper w-full max-w-[1440px] relative mx-auto h-auto overflow-visible overflow-x-hidden"
+        class="app-wrapper flex w-full max-w-[1440px] mx-auto relative h-auto overflow-visible overflow-x-hidden"
       >
         <div
           class="app-container flex flex-nowrap w-full h-screen relative shadow-sm"
@@ -21,8 +21,8 @@ import "../styles/global.css";
           <div
             class="fixed right-0 top-0 h-screen w-12 z-40 hidden lg:flex items-center justify-center pointer-events-none"
           >
-            <div class="absolute h-full w-0.5 bg-color-accent opacity-10">
-            </div><div
+            <div class="absolute h-full w-0.5 bg-color-accent opacity-10"></div>
+            <div
               class="w-full font-mono text-color-accent text-sm tracking-widest uppercase opacity-40 whitespace-nowrap rotate-90 transform origin-top-left translate-y-[-100%]"
             >
               <span class="animate-ticker"
@@ -32,7 +32,7 @@ import "../styles/global.css";
             </div>
           </div>
           <Header />
-          <div class="app-content w-full pt-[80px] overflow-y-auto">
+          <div class="app-content w-full pt-[140px] overflow-y-auto">
             <slot />
             <Footer />
           </div>

@@ -2,15 +2,12 @@
 import { cn } from "@/lib/utils";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
 const today = new Date();
-
-const footerClasses = cn(
-  "border-t border-border/80, text-secondary text-sm",
-  "w-full max-w-[1440px] mx-auto py-4 px-4 md:px-8"
-);
 ---
 
 <footer class="w-full">
-  <div class={footerClasses}>
+  <div
+    class="w-full max-w-[1440px] mx-auto py-4 px-4 md:px-8 text-secondary text-sm"
+  >
     <div class="flex items-center gap-4">
       <p class="font-mono text-xs md:text-sm tracking-wide">
         // CASE ARCHIVE: <span class="neon-text font-semibold">GPR.DEV</span> /
