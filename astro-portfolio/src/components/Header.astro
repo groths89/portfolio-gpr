@@ -89,7 +89,7 @@ const headerClasses = cn(
       </div>
     </div>
   </header>
-  <div class="path-wrapper mt-20 border-b bg-card/30 backdrop-blur-sm">
+  <div class="path-wrapper border-b bg-accent text-muted border-border/80">
     <div class="container mx-auto px-4 py-2">
       <p class="text-xs md:text-sm font-mono">
         <span
@@ -97,8 +97,8 @@ const headerClasses = cn(
             "text-sm font-mono tracking-wider uppercase px-4 py-1 rounded-sm",
             "transition-colors duration-300",
             pathname.startsWith("/case-file")
-              ? "text-destructive-foreground shadow-color-destructive/30"
-              : "text-muted-foreground shadow-color-accent/30"
+              ? "text-destructive shadow-color-destructive/30"
+              : "text-muted shadow-color-accent/30"
           )}
         >
           {systemPath}

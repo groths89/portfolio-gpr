@@ -1,15 +1,9 @@
 import type { Config } from "tailwindcss";
-const { fontFamily } = require("tailwindcss/defaultTheme");
-import animate from "tailwindcss-animate";
-import typography from "@tailwindcss/typography";
-
+import defaultTheme from "tailwindcss/defaultTheme";
 
 const config = {
   darkMode: ["class", ".dark"],
   content: [
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./app/**/*.{ts,tsx}",
     "./src/**/*.{astro,html,js,jsx,ts,tsx,md,mdx}",
   ],
   prefix: "",
@@ -24,48 +18,38 @@ const config = {
     extend: {
       fontFamily: {
         // Use the Titillium Web variable
-        heading: ['var(--font-heading)', ...fontFamily.sans],
+        heading: ['var(--font-heading)', ...defaultTheme.fontFamily.sans],
         
         // Use the Inter variable
-        body: ['var(--font-body)', ...fontFamily.sans], 
+        body: ['var(--font-body)', ...defaultTheme.fontFamily.sans], 
         
         // Use the Fira Code variable
-        mono: ['var(--font-mono)', ...fontFamily.mono], 
+        mono: ['var(--font-mono)', ...defaultTheme.fontFamily.mono], 
       },
       colors: {
         'primary-background': "#191923",
-        border: "hsl(var(--border) / <alpha-value>)",
-        input: "hsl(var(--input) / <alpha-value>)",
-        ring: "hsl(var(--ring) / <alpha-value>)",
-        background: "hsl(var(--background) / <alpha-value>)",
-        foreground: "hsl(var(--foreground) / <alpha-value>)",
-        // Primary Colors (Need to define DEFAULT explicitly if using variants)
-        primary: "hsl(var(--primary) / <alpha-value>)",
-        'primary-foreground': "hsl(var(--primary-foreground) / <alpha-value>)",
-
-        // Secondary Colors
-        secondary: "hsl(var(--secondary) / <alpha-value>)",
-        'secondary-foreground': "hsl(var(--secondary-foreground) / <alpha-value>)",
-
-        // Muted Colors
-        muted: "hsl(var(--muted) / <alpha-value>)",
-        'muted-foreground': "hsl(var(--muted-foreground) / <alpha-value>)", // 👈 THIS IS THE FIX
-
-        // Accent Colors
-        accent: "hsl(var(--accent) / <alpha-value>)",
-        'accent-foreground': "hsl(var(--accent-foreground) / <alpha-value>)",
-
-        // Popover Colors
-        popover: "hsl(var(--popover) / <alpha-value>)",
-        'popover-foreground': "hsl(var(--popover-foreground) / <alpha-value>)",
-
-        // Card Colors
-        card: "hsl(var(--card) / <alpha-value>)",
-        'card-foreground': "hsl(var(--card-foreground) / <alpha-value>)",
-
-        // Destructive Colors
-        destructive: "hsl(var(--destructive) / <alpha-value>)",
-        'destructive-foreground': "hsl(var(--destructive-foreground) / <alpha-value>)",
+        border: ({ opacityValue }: { opacityValue: string }) => `hsl(var(--border) / ${opacityValue})`,
+        input: ({ opacityValue }: { opacityValue: string }) => `hsl(var(--input) / ${opacityValue})`,
+        ring: ({ opacityValue }: { opacityValue: string }) => `hsl(var(--ring) / ${opacityValue})`,
+        background: ({ opacityValue }: { opacityValue: string }) => `hsl(var(--background) / ${opacityValue})`,
+        foreground: ({ opacityValue }: { opacityValue: string }) => `hsl(var(--foreground) / ${opacityValue})`,
+        primary: ({ opacityValue }: { opacityValue: string }) => `hsl(var(--primary) / ${opacityValue})`,
+        'primary-foreground': ({ opacityValue }: { opacityValue: string }) => `hsl(var(--primary-foreground) / ${opacityValue})`,
+        secondary: ({ opacityValue }: { opacityValue: string }) => `hsl(var(--secondary) / ${opacityValue})`,
+        'secondary-foreground': ({ opacityValue }: { opacityValue: string }) => `hsl(var(--secondary-foreground) / ${opacityValue})`,
+        muted: ({ opacityValue }: { opacityValue: string }) => `hsl(var(--muted) / ${opacityValue})`,
+        'muted-foreground': ({ opacityValue }: { opacityValue: string }) => `hsl(var(--muted-foreground) / ${opacityValue})`,
+        accent: ({ opacityValue }: { opacityValue: string }) => `hsl(var(--accent) / ${opacityValue})`,
+        'accent-foreground': ({ opacityValue }: { opacityValue: string }) => `hsl(var(--accent-foreground) / ${opacityValue})`,
+        popover: ({ opacityValue }: { opacityValue: string }) => `hsl(var(--popover) / ${opacityValue})`,
+        'popover-foreground': ({ opacityValue }: { opacityValue: string }) => `hsl(var(--popover-foreground) / ${opacityValue})`,
+        card: ({ opacityValue }: { opacityValue: string }) => `hsl(var(--card) / ${opacityValue})`,
+        'card-foreground': ({ opacityValue }: { opacityValue: string }) => `hsl(var(--card-foreground) / ${opacityValue})`,
+        destructive: ({ opacityValue }: { opacityValue: string }) => `hsl(var(--destructive) / ${opacityValue})`,
+        'destructive-foreground': ({ opacityValue }: { opacityValue: string }) => `hsl(var(--destructive-foreground) / ${opacityValue})`,
+        'neon-cyan': ({ opacityValue }: { opacityValue: string }) => `hsl(var(--neon-cyan) / ${opacityValue})`,
+        'neon-purple': ({ opacityValue }: { opacityValue: string }) => `hsl(var(--neon-purple) / ${opacityValue})`,
+        'neon-amber': ({ opacityValue }: { opacityValue: string }) => `hsl(var(--neon-amber) / ${opacityValue})`,
       },
       borderRadius: {
         lg: "var(--radius)",

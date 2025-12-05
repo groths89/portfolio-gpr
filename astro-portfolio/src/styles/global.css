@@ -7,6 +7,9 @@
 
 @layer base {
   :root {
+    --font-heading: "Titillium Web", sans-serif;
+    --font-body: "Inter", sans-serif;
+    --font-mono: "Fira Code", monospace;
     /* Cyber Dev Detective Theme - Light Mode */
     --background: 180 30% 97%;
     --foreground: 222 47% 15%;
@@ -75,7 +78,7 @@
     --secondary-foreground: 222 47% 5%;
 
     --muted: 222 35% 15%;
-    --muted-foreground: 180 20% 60%;
+    --muted-foreground: 180 20% 80%;
 
     --accent: 45 100% 50%;
     --accent-foreground: 222 47% 5%;
@@ -111,7 +114,7 @@
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
-    font-family: "Inter", monospace;
+    font-family: var(--font-body);
     margin: 0;
   }
 
@@ -156,7 +159,7 @@
     background: linear-gradient(
       to bottom,
       transparent 50%,
-      rgba(0, 255, 255, 0.03) 50%
+      hsl(var(--neon-cyan) / 0.03) 50%
     );
     background-size: 100% 4px;
     pointer-events: none;
@@ -229,7 +232,7 @@
 
 @layer components {
   .tech-tag {
-    font-family: hsl(var(--font-mono));
+    font-family: var(--font-mono);
     font-size: 0.75rem;
     color: hsl(var(--primary));
     border: 1px solid hsl(var(--primary));
@@ -313,6 +316,7 @@
   /* Terminal styling */
   .terminal {
     font-family: "Courier New", monospace;
+    font-family: var(--font-mono);
     background: hsl(var(--card));
     border: 1px solid hsl(var(--primary));
     padding: 1rem;
@@ -377,8 +381,8 @@
 /* --------------------------------------------------- */
 * {
   --scrollbar-width: 8px;
-  --scrollbar-thumb-color: hsla(180, 100%, 50%, 1);
-  --scrollbar-track-color: hsla(0, 0%, 10%, 1);
+  --scrollbar-thumb-color: hsl(var(--primary));
+  --scrollbar-track-color: hsl(var(--background));
   scrollbar-width: thin;
   scrollbar-color: var(--scrollbar-thumb-color) var(--scrollbar-track-color);
 }
@@ -401,11 +405,11 @@
   border-radius: 10px;
 
   /* Neon Glow Effect */
-  box-shadow: 0 0 5px hsla(180, 100%, 44%, 1), 0 0 10px hsla(180, 100%, 44%, 1),
-    0 0 15px hsla(180, 100%, 44%, 1);
+  box-shadow: 0 0 5px hsl(var(--primary)), 0 0 10px hsl(var(--primary)),
+    0 0 15px hsl(var(--primary));
 }
 
 /* Scrollbar Thumb Hover State */
 ::-webkit-scrollbar-thumb:hover {
-  background: hsla(180, 100%, 50%, 1);
+  background: hsl(var(--primary));
 }
