@@ -21,10 +21,6 @@ export default defineConfig({
   integrations: [mdx(), sitemap(), react()],
 
   vite: {
-    plugins: [
-      tailwindcss({
-        config: tailwindConfigPath,
-      })
-    ],
+    plugins: [tailwindcss()],
   },
 });
