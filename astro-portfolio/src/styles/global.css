@@ -7,9 +7,10 @@
 
 @layer base {
   :root {
-    --font-heading: "Titillium Web", sans-serif;
-    --font-body: "Inter", sans-serif;
-    --font-mono: "Fira Code", monospace;
+    --font-inter: "Inter", sans-serif;
+    --font-fira-code: "Fira Code", monospace;
+    --font-titillium-web: "Titillium Web", sans-serif;
+
     /* Cyber Dev Detective Theme - Light Mode */
     --background: 180 30% 97%;
     --foreground: 222 47% 15%;
