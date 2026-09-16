@@ -5,18 +5,18 @@ import Masthead from "../components/Masthead.astro";
 import { library, icon } from "@fortawesome/fontawesome-svg-core";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { faRss } from "@fortawesome/free-solid-svg-icons";
-import { getSingleWPPage, type WPPost } from "../lib/wp.ts";
+import { getSingleWPPage, type WPPostWithEmbed } from "../lib/wp.ts";
 
 library.add(faEnvelope, faRss);
 
 const emailicon = icon({ prefix: "fas", iconName: "envelope" }).html.join("");
 const rssicon = icon({ prefix: "fas", iconName: "rss" }).html.join("");
 
-const wpFrontPage: WPPost | null = await getSingleWPPage("front-page");
-const wpTechPage: WPPost | null = await getSingleWPPage("tech-page");
-const wpSportsPage: WPPost | null = await getSingleWPPage("sports-page");
-const wpOpEdPage: WPPost | null = await getSingleWPPage("op-ed-page");
-const wpClassifiedsPage: WPPost | null =
+const wpFrontPage: WPPostWithEmbed | null = await getSingleWPPage("front-page");
+const wpTechPage: WPPostWithEmbed | null = await getSingleWPPage("tech-page");
+const wpSportsPage: WPPostWithEmbed | null = await getSingleWPPage("sports-page");
+const wpOpEdPage: WPPostWithEmbed | null = await getSingleWPPage("op-ed-page");
+const wpClassifiedsPage: WPPostWithEmbed | null =
   await getSingleWPPage("classifieds-page");
 const crosswordLayout = [
   "xxx############",
@@ -53,14 +53,6 @@ const crosswordNumbers: Record<string, number> = {
 ---
 
 <BaseLayout title="Home">
-  <button
-    id="scroll-indicator"
-    class="scroll-indicator"
-    aria-label="Scroll to content"
-  >
-    <span class="scroll-text">Click for more</span>
-    <span class="scroll-icon">↓</span>
-  </button>
   <div id="hero-container">
     <HomeHero />
   </div>
@@ -860,7 +852,15 @@ const crosswordNumbers: Record<string, number> = {
   }
 </style>
 <script>
-  const scrollBtn = document.getElementById("scroll-indicator");
+  // Listen for clicks on the embedded hero CTA button
+  const enterBtn = document.getElementById("enter-edition-btn");
+  if (enterBtn) {
+    enterBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      showSection("front-page");
+      history.pushState(null, "", "#front-page");
+    });
+  }
   const sections = document.querySelectorAll(
     ".newspaper-wrapper",
   ) as NodeListOf<HTMLElement>;
@@ -1027,53 +1027,51 @@ const crosswordNumbers: Record<string, number> = {
 
   // Function to show a specific newspaper section and hide others
   function showSection(targetId: string, smoothScroll = true) {
-    // Hide all newspaper-wrapper sections
+    const targetSection = document.getElementById(targetId);
+
+    if (!targetSection) {
+      console.warn(`Section '${targetId}' not found. Defaulting to front-page.`);
+      showSection("front-page", smoothScroll);
+      return;
+    }
+
+    // Hide all newspaper wrapper sections
     sections.forEach((sec) => {
       sec.style.display = "none";
     });
 
-    const targetSection = document.getElementById(targetId);
-    if (targetSection) {
-      targetSection.style.display = "block"; // Show the target section
-      if (heroContainer) {
-        heroContainer.style.display = "none"; // Hide the hero container
-      }
-      document.body.style.overflow = "auto"; // Allow scrolling on the body
-      targetSection.scrollIntoView({
-        behavior: smoothScroll ? "smooth" : "auto",
-      }); // Scroll to it
-
-      // Hide the scroll button once we've navigated to a section
-      if (scrollBtn) {
-        scrollBtn.style.opacity = "0";
-        scrollBtn.style.pointerEvents = "none";
-      }
-    } else {
-      // If the target section doesn't exist, log a warning
-      console.warn(`Section with ID '${targetId}' not found on this page.`);
+    targetSection.style.display = "block";
+    if (heroContainer) {
+      heroContainer.style.display = "none";
     }
+    document.body.style.overflow = "auto";
+
+    targetSection.scrollIntoView({
+      behavior: smoothScroll ? "smooth" : "auto",
+    });
   }
 
-  // Initial page load logic
-  if (heroContainer && sections.length > 0) {
-    const currentHash = window.location.hash.substring(1); // Get hash without '#'
+  // Wrap layout evaluation logic so it runs on initial load AND View Transition navigations
+  function initPageLayout() {
+    const currentSections = document.querySelectorAll(
+      ".newspaper-wrapper"
+    ) as NodeListOf<HTMLElement>;
+    const currentHeroContainer = document.getElementById("hero-container");
 
-    // Hide all sections initially
-    sections.forEach((sec) => (sec.style.display = "none"));
+    if (!currentHeroContainer || currentSections.length === 0) return;
+
+    const currentHash = window.location.hash.substring(1);
+
+    // Always hide all sections first
+    currentSections.forEach((sec) => (sec.style.display = "none"));
 
     if (currentHash && document.getElementById(currentHash)) {
-      // If there's a valid hash in the URL, show that section immediately
-      showSection(currentHash, false); // No smooth scroll on initial load with hash
+      showSection(currentHash, false);
     } else if (window.scrollY > 50) {
-      // If the user has already scrolled past the hero on a non-hash load, show front-page
-      showSection("front-page", false); // No smooth scroll on initial load if already scrolled
+      showSection("front-page", false);
     } else {
-      // Otherwise, show hero and lock scroll
-      if (heroContainer) {
-        heroContainer.style.display = "block";
-      }
+      currentHeroContainer.style.display = "block";
       document.body.style.overflow = "hidden";
-      // Ensure front-page is ready to be shown if scroll-indicator is clicked
       const frontPage = document.getElementById("front-page");
       if (frontPage) {
         frontPage.style.display = "block";
@@ -1081,45 +1079,35 @@ const crosswordNumbers: Record<string, number> = {
     }
   }
 
-  // Scroll button click handler (from hero to front-page)
-  if (scrollBtn) {
-    scrollBtn.addEventListener("click", () => {
-      showSection("front-page"); // Always scroll to front-page
-      // Update URL hash without causing a full page reload
-      history.pushState(null, "", "#front-page");
-    });
-  }
+  // Handle back/forward browser navigation
+  window.addEventListener("popstate", () => {
+    initPageLayout();
+  });
 
-  // Global navigation click handler for anchor links
+  // Execute on Astro page loads (handles client-side routing & initial landing)
+  document.addEventListener("astro:page-load", () => {
+    splitClassifieds();
+    markSportsDecoderTable();
+    plantTechCipher();
+    initPageLayout();
+  });
+
+  window.addEventListener("reveal-tech-cipher", revealTechCipher);
+
+  // Global navigation handler
   if (globalNav) {
     globalNav.addEventListener("click", (event) => {
-      const target = event.target as HTMLAnchorElement;
-      // Check if the clicked element is an anchor tag and its href starts with '#'
-      if (
-        target.tagName === "A" &&
-        (target.getAttribute("href") || "").startsWith("#")
-      ) {
-        event.preventDefault(); // Prevent default anchor jump
-        const targetId = target.getAttribute("href")?.substring(1) || "";
+      const target = (event.target as HTMLElement).closest("a");
+      if (!target) return;
+
+      const href = target.getAttribute("href") || "";
+      if (href.startsWith("#")) {
+        event.preventDefault();
+        const targetId = href.substring(1);
         if (targetId) {
           showSection(targetId);
-          // Update URL hash without causing a full page reload
           history.pushState(null, "", `#${targetId}`);
         }
-      }
-    });
-  }
-
-  // Manual Scroll Fallback (for when user scrolls past hero without clicking scrollBtn)
-  if (heroContainer && scrollBtn) {
-    window.addEventListener("scroll", () => {
-      const scrollThreshold = 100;
-      if (window.scrollY > scrollThreshold) {
-        scrollBtn.style.opacity = "0";
-        scrollBtn.style.pointerEvents = "none";
-      } else if (document.body.style.overflow === "hidden") {
-        scrollBtn.style.opacity = "1";
-        scrollBtn.style.pointerEvents = "auto";
       }
     });
   }

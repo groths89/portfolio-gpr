@@ -1,10 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Masthead from '../components/Masthead.astro';
-import { getWPPosts, type WPPost } from '../lib/wp';
+import { getWPPosts, type WPPostWithEmbed } from '../lib/wp';
 import { getGroupedTags } from '../utils/wordpress';
 
-const posts: WPPost[] = await getWPPosts();
+const posts: WPPostWithEmbed[] = await getWPPosts();
 
 posts.forEach(p => {
   console.log('Post Title:', p.title.rendered);

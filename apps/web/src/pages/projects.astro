@@ -1,11 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Masthead from '../components/Masthead.astro';
-import { getWPPosts, type WPPost } from '../lib/wp.ts';
+import { getWPPosts, type WPPostWithEmbed } from '../lib/wp.ts';
 import { getGroupedTags } from '../utils/wordpress.ts';
 
 // 1. Fetch all WordPress posts
-const allPosts: WPPost[] = await getWPPosts();
+const allPosts: WPPostWithEmbed[] = await getWPPosts();
 
 // 2. Filter posts by category or tag group matching "projects" or "project"
 const projectPosts = allPosts.filter((post) => { 

@@ -5,7 +5,7 @@ export interface GroupedTags {
 export function getGroupedTags(post: any): GroupedTags {
   const grouped: GroupedTags = {};
 
-  //WordPress retuens embedded taxonomies in _embedded['wp:term']
+  //WordPress returns embedded taxonomies in _embedded['wp:term']
   const terms = post?._embedded?.['wp:term'] || [];
 
   // Flatten all terms and filter for 'post_tag'

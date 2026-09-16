@@ -1,5 +1,36 @@
 const WP_SITE_ID = '252990550';
-const WP_API_URL = `https://public-api.wordpress.com/wp/v2/sites/${WP_SITE_ID}`;;
+const WP_API_URL = `https://public-api.wordpress.com/wp/v2/sites/${WP_SITE_ID}`;
+
+export interface WPCategoryTerm {
+  id: number;
+  name: string;
+  slug: string;
+  taxonomy: string;
+}
+
+// Extended WPPost interface including _embedded properties
+export interface WPPostWithEmbed {
+  id: number;
+  slug: string;
+  date: string;
+  title: {
+    rendered: string;
+  };
+  content: {
+    rendered: string;
+  };
+  excerpt: {
+    rendered: string;
+  };
+  categories?: number[];
+  _embedded?: {
+    'wp:term'?: WPCategoryTerm[][];
+    'wp:featuredmedia'?: Array<{
+      source_url: string;
+      alt_text: string;
+    }>;
+  };
+}
 
 export interface WPPost {
   id: number;
@@ -21,7 +52,7 @@ export interface WPNavItem {
   title: string;
 }
 
-export async function getBlogArchivePosts(): Promise<WPPost[]> {
+export async function getBlogArchivePosts(): Promise<WPPostWithEmbed[]> {
   const res = await fetch(`${WP_API_URL}/posts?categories=4526&per_page=100&_embed`);
   
   if (!res.ok) {
@@ -30,7 +61,7 @@ export async function getBlogArchivePosts(): Promise<WPPost[]> {
   return res.json();
 }
 
-export async function getWPPosts(): Promise<WPPost[]> {
+export async function getWPPosts(): Promise<WPPostWithEmbed[]> {
   const res = await fetch(`${WP_API_URL}/posts?per_page=100&_embed`);
   if (!res.ok) {
     throw new Error(`Failed to fetch posts: ${res.statusText}`);
@@ -38,7 +69,7 @@ export async function getWPPosts(): Promise<WPPost[]> {
   return res.json();
 }
 
-export async function getWPPages(): Promise<WPPost[]> {
+export async function getWPPages(): Promise<WPPostWithEmbed[]> {
   const res = await fetch(`${WP_API_URL}/pages?_embed`);
   if (!res.ok) {
     throw new Error(`Failed to fetch pages: ${res.statusText}`);
@@ -46,14 +77,14 @@ export async function getWPPages(): Promise<WPPost[]> {
   return res.json();
 }
 
-export async function getSingleWPPost(slug: string): Promise<WPPost | null> {
-  const res = await fetch(`${WP_API_URL}/posts?slug=${slug}`);
+export async function getSingleWPPost(slug: string): Promise<WPPostWithEmbed | null> {
+  const res = await fetch(`${WP_API_URL}/posts?slug=${slug}&_embed`);
   const posts = await res.json();
   return posts[0] || null;
 }
 
-export async function getSingleWPPage(slug: string): Promise<WPPost | null> {
-  const res = await fetch(`${WP_API_URL}/pages?slug=${slug}`);
+export async function getSingleWPPage(slug: string): Promise<WPPostWithEmbed | null> {
+  const res = await fetch(`${WP_API_URL}/pages?slug=${slug}&_embed`);
   if (!res.ok) return null;
   const pages = await res.json();
   return pages[0] || null;
@@ -74,11 +105,9 @@ export async function getWPMenu(): Promise<WPNavItem[]> {
       return [];
     }
 
-    // Target the first navigation menu returned
     const primaryMenu = navMenus[0];
     const content = primaryMenu.content?.rendered || primaryMenu.content?.raw || "";
 
-    // Parse block navigation links or raw HTML links
     const menuItems: WPNavItem[] = [];
     const linkRegex = /<a\s+[^>]*href=["']([^"']+)["'][^>]*>(.*?)<\/a>/g;
     let match;
@@ -86,7 +115,7 @@ export async function getWPMenu(): Promise<WPNavItem[]> {
     while ((match = linkRegex.exec(content)) !== null) {
       menuItems.push({
         url: match[1],
-        title: match[2].replace(/<[^>]*>/g, "").trim(), // Strip nested tags
+        title: match[2].replace(/<[^>]*>/g, "").trim(),
       });
     }
 

@@ -1,31 +1,237 @@
 ---
 // components/HomeHero.astro
 ---
-<section id="home" class="page-selection hero-layout">
-	<div class="hero-text-container">
-		<h1 class="hero-title">Born for the Web.</h1>
-		<p class="hero-subtitle">Est. June 12, 1989</p>
-	</div>
+<section id="home" class="hero-layout">
+  <div class="hero-broadside">
+    <div class="hero-badge-bar">
+      <span class="badge">EXTRA! EXTRA!</span>
+      <span class="issue-date">EST. JUNE 12, 1989 • VOL. I NO. 1</span>
+      <span class="edition-type">SPECIAL EDITION</span>
+    </div>
+
+    <div class="hero-content">
+      <p class="hero-kicker">// SPECIAL DISPATCH</p>
+      <h1 class="hero-title">THE DIGITAL CHRONICLE</h1>
+      <p class="hero-subheadline">ENGINEERED FOR THE MODERN WEB</p>
+      
+      <!-- Integrated Press Call-to-Action -->
+      <a href="#front-page" id="enter-edition-btn" class="hero-cta">
+        READ THE EDITION <span class="arrow">↓</span>
+      </a>
+    </div>
+
+    <div class="hero-ticker">
+      <div class="ticker-item"><span>ASTRO / NEXT.JS</span></div>
+      <div class="ticker-divider">•</div>
+      <div class="ticker-item"><span>FULL-STACK ARCHITECTURE</span></div>
+      <div class="ticker-divider">•</div>
+      <div class="ticker-item"><span>HOMELAB & CLOUD</span></div>
+    </div>
+  </div>
 </section>
+
 <style>
-	/* Home Page: Hero Layout */
-	.hero-layout {
-		text-align: center;
-		align-items: center;
-		gap: 3rem;
-	}
+  .hero-layout {
+    min-height: 100vh;
+    min-height: 100dvh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 1.5rem;
+    background: var(--off-white);
+    box-sizing: border-box;
+  }
 
-	.hero-title {
-		font-family: var(--font-serif);
-		font-size: clamp(3rem, 8vw, 6rem);
-		line-height: 0.9;
-	}
+  .hero-broadside {
+    max-width: 950px;
+    width: 100%;
+    min-height: calc(100vh - 5rem);
+    min-height: calc(100dvh - 5rem);
+    border: 4px double var(--ink);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    box-shadow: 10px 10px 0px var(--ink);
+    background: var(--off-white);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+  }
 
-	.hero-subtitle {
-		font-family: var(--font-mono);
-		font-size: 1rem;
-		letter-spacing: 3px;
-		margin-top: 1rem;
-		text-transform: uppercase;
-	}
+  .hero-badge-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .badge {
+    background: var(--ink);
+    color: var(--off-white);
+    padding: 0.2rem 0.6rem;
+    letter-spacing: 1px;
+  }
+
+  .hero-content {
+    margin: auto 0;
+    padding: 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-kicker {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent, #b42318);
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+  }
+
+  .hero-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2.8rem, 7.5vw, 5.8rem);
+    font-weight: 900;
+    line-height: 0.95;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    margin: 0.5rem 0;
+  }
+
+  .hero-subheadline {
+    font-family: var(--font-serif);
+    font-size: clamp(1.1rem, 2.5vw, 2rem);
+    font-style: italic;
+    letter-spacing: 2px;
+    margin-top: 1rem;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 0.6rem 0;
+    width: 100%;
+  }
+
+/* Broadside CTA Style - Forced specificity for Astro component scoping */
+  .hero-layout :global(a.hero-cta),
+  a.hero-cta {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.6rem !important;
+    margin-top: 2rem !important;
+    padding: 0.8rem 1.8rem !important;
+    background-color: var(--ink) !important;
+    color: var(--off-white) !important;
+    font-family: var(--font-mono) !important;
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 1.5px !important;
+    text-decoration: none !important;
+    text-transform: uppercase !important;
+    border: 2px solid var(--ink) !important;
+    box-shadow: 4px 4px 0px var(--accent, #b42318) !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+    cursor: pointer !important;
+  }
+
+	/* Animated Pill Hero CTA with Floating Effect */
+  .hero-layout :global(a.hero-cta),
+  a.hero-cta {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    margin-top: 2.25rem !important;
+    padding: 0.6rem 1.25rem !important;
+    background-color: var(--ink) !important;
+    color: var(--off-white) !important;
+    border: 2px solid var(--ink) !important;
+    border-radius: 50px !important;
+    font-family: var(--font-mono) !important;
+    font-size: 0.8rem !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    text-transform: uppercase !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    cursor: pointer !important;
+
+    /* Continuous floating drift animation */
+    animation: floatDrift 3s ease-in-out infinite !important;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease !important;
+  }
+
+  .hero-layout :global(a.hero-cta:hover),
+  a.hero-cta:hover {
+    transform: translate(-2px, -2px) !important;
+    box-shadow: 6px 6px 0px var(--accent, #b42318) !important;
+    color: var(--off-white) !important;
+    background-color: var(--ink) !important;
+  }
+
+  .arrow {
+    font-size: 1.1rem;
+    line-height: 1;
+    display: inline-block;
+  }
+
+	/* Button floating drift keyframes */
+  @keyframes floatDrift {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+
+  /* Arrow pulse bounce keyframes */
+  @keyframes arrowBounce {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-3px);
+    }
+    60% {
+      transform: translateY(-1.5px);
+    }
+  }
+
+  .hero-ticker {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    border-top: 2px solid var(--ink);
+    padding-top: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .ticker-divider {
+    color: var(--accent, #b42318);
+  }
+
+  @media (max-width: 650px) {
+    .hero-broadside {
+      min-height: auto;
+      padding: 1.5rem 1rem;
+    }
+    .hero-badge-bar {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .hero-ticker {
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .ticker-divider {
+      display: none;
+    }
+  }
 </style>

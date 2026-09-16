@@ -1,9 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Masthead from '../components/Masthead.astro';
-import { getBlogArchivePosts, type WPPost } from '../lib/wp.ts';
+import { getBlogArchivePosts, type WPPostWithEmbed } from '../lib/wp.ts';
 
-const posts: WPPost[] = await getBlogArchivePosts();
+const posts: WPPostWithEmbed[] = await getBlogArchivePosts();
 
 // Seperate the top post to serve as the front-page featured dispatch
 const featuredPost = posts[0];
