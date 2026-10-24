@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Masthead from '../components/Masthead.astro';
 import { getWPPosts, getWPPages, type WPPostWithEmbed } from '../lib/wp';
+import { getGroupedTags } from '../utils/wordpress';
 
 export async function getStaticPaths() {
   const posts = await getWPPosts();
@@ -19,29 +20,56 @@ export async function getStaticPaths() {
 const { content } = Astro.props;
 
 // Determine layout variant based on WP Category or Post Type
-const categories = content._embedded?.['wp:term']?.[0]?.map((c: any) => c.slug) || [];
+const terms = content._embedded?.['wp:term']?.flat() || [];
+const categorySlugs = terms
+  .filter((t: any) => t.taxonomy === 'category')
+  .map((c: any) => c.slug.toLowerCase());
+
+// Tag group parsing
+const groupedTags = getGroupedTags(content);
+const isTimelineEvent = Boolean(groupedTags['event'] && groupedTags['event'].length > 0);
+const isProjectPost = categorySlugs.includes('projects') || categorySlugs.includes('project');
 
 let layoutVariant = 'lead-broadside';
 
-// Layout Selection Logic:
-// Rotates automatically via a post ID:
-// - ID % 3 === 0: Lead Broadside (2-Col Body + Left Sidebar)
-// - ID % 3 === 1: Editorial Op-Ed (Single Col, Heavy Border)
-// - ID % 3 === 2: Classified Wire (3-Col Flow + Right Sidebar)
-if (categories.includes('projects') || categories.includes('case-studies')) {
+if (isProjectPost || categorySlugs.includes('case-studies')) {
   layoutVariant = 'project-star'; // Dedicated STAR layout for portfolio projects
-} else if (categories.includes('opinion') || categories.includes('editorial')) {
+} else if (categorySlugs.includes('opinion') || categorySlugs.includes('editorial')) {
   layoutVariant = 'editorial-single';
-} else if (categories.includes('classifieds') || categories.includes('wire')) {
+} else if (categorySlugs.includes('classifieds') || categorySlugs.includes('wire')) {
   layoutVariant = 'classified-wire';
 }
-
 ---
 <BaseLayout title={content.title.rendered}>
   <article class={`newspaper-wrapper layout-${layoutVariant}`}>
-    <Masthead content={content} />
-    
     <section class="content-wrapper">
+
+      {/* HEADER BANNER SELECTION */}
+      {isTimelineEvent ? (
+        <div class="archive-header-banner">
+          <p class="tagline">// CHRONOLOGICAL REGISTER</p>
+          <h1 class="archive-title">THE DIGITAL TIMELINE</h1>
+          <p class="archive-subtitle">
+            RECORDED MILESTONES, SYSTEM EVENTS, AND ARCHITECTURAL DISPATCHES
+          </p>
+        </div>
+      ) : isProjectPost ? (
+        <div class="archive-header-banner">
+          <p class="tagline">// CLASSIFIED PROJECT DOSSIERS & REPORTS</p>
+          <h1 class="archive-title">THE BUILDER'S GAZETTE</h1>
+          <p class="archive-subtitle">
+            SPECIAL REPORT: ARCHIVED WORKS, SYSTEM ARCHITECTURES, AND EXPERIMENTAL LOGIC
+          </p>
+        </div>
+      ) : (
+        <div class="archive-header-banner">
+          <p class="tagline">// CLASSIFIED DISPATCHES & RECORDS</p>
+          <h1 class="archive-title">THE ARCHIVE</h1>
+          <p class="archive-subtitle">
+            A COMPLETE CHRONICLE OF LOGIC, ARCHITECTURE, AND SYSTEM DISPATCHES
+          </p>
+        </div>
+      )}
 
       {/* VARIANT A: PROJECT PORTFOLIO (STAR Broadside + Tech Stack Specs) */}
       {layoutVariant === 'project-star' && (
@@ -68,7 +96,6 @@ if (categories.includes('projects') || categories.includes('case-studies')) {
             </aside>
 
             <main class="main-article">
-              {/* Added wp-content class to ensure STAR block styles apply */}
               <div class="wp-newspaper-content wp-content star-flow" set:html={content.content.rendered}></div>
             </main>
           </div>
@@ -163,6 +190,30 @@ if (categories.includes('projects') || categories.includes('case-studies')) {
     max-width: 1200px;
     margin: 0 auto;
     padding: 2rem 1.5rem 4rem 1.5rem;
+  }
+
+  /* Header Banner Styles */
+  .archive-header-banner {
+    text-align: center;
+    border-bottom: 4px solid var(--ink);
+    padding-bottom: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .archive-title {
+    font-family: var(--font-serif);
+    text-transform: uppercase;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1;
+    margin: 0.5rem 0;
+  }
+
+  .archive-subtitle {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
   }
 
   /* Common Typography & Headings */
@@ -468,6 +519,7 @@ if (categories.includes('projects') || categories.includes('case-studies')) {
       padding: 1.5rem;
     }
   }
+
   /* ================= PROJECT ARTICLE / STAR BLOCK STYLES ================= */
   
   /* WordPress Columns inside Projects */

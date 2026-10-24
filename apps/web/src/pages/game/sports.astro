@@ -1,0 +1,360 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import NewspaperLayout from "../../layouts/NewspaperLayout.astro";
+import HomeHero from "../../components/HomeHero.astro";
+import Masthead from "../../components/Masthead.astro";
+import { library, icon } from "@fortawesome/fontawesome-svg-core";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faRss } from "@fortawesome/free-solid-svg-icons";
+import { getSingleWPPage, type WPPostWithEmbed } from "../../lib/wp.ts";
+
+library.add(faEnvelope, faRss);
+
+const emailicon = icon({ prefix: "fas", iconName: "envelope" }).html.join("");
+const rssicon = icon({ prefix: "fas", iconName: "rss" }).html.join("");
+
+const wpSportsPage: WPPostWithEmbed | null = await getSingleWPPage("sports-page");
+---
+
+<NewspaperLayout
+  pageId="sports-page" 
+  title="Sports | Newspaper"
+  issueDate="OCTOBER 17, 1989"
+  volume="VOL. 104"
+  issueNumber="NO. 250"
+  editionName="BAY BRIDGE SERIES SPECIAL"
+>
+    <section id="content" class="content-wrapper">
+      {
+        wpSportsPage ? (
+          <div
+            class="wp-rendered-content newspaper-columns"
+            set:html={wpSportsPage.content.rendered}
+          />
+        ) : (
+          <div class="sports-layout" />
+        )
+      }
+      <div id="section-3" class="section-3">
+        <div>
+          <div>
+            <span>Quick Clips:</span>
+          </div>
+          <div>Weather: Cloud Infrastructure Stable</div>
+          <div>Stocks: Semiconductor Futures Rising</div>
+          <div>Obituaries: Legacy IE Support Laid to Rest</div>
+          <div id="buttons" class="buttons">
+            <Fragment set:html={rssicon} />
+            <Fragment set:html={emailicon} />
+          </div>
+        </div>
+      </div>
+    </section>
+  
+</NewspaperLayout>
+
+<style>
+  /* SPORTS LAYOUT GRID */
+  .sports-layout {
+    display: grid;
+    grid-template-columns: 2.2fr 1.2fr;
+    gap: 2rem;
+    border-bottom: 4px solid var(--ink);
+    padding-bottom: 2rem;
+  }
+
+  @media (max-width: 900px) {
+    .sports-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .sports-main-stories {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .sports-data-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    border-left: 2px solid var(--ink);
+    padding-left: 1.5rem;
+  }
+
+  @media (max-width: 900px) {
+    .sports-data-sidebar {
+      border-left: none;
+      padding-left: 0;
+      border-top: 2px solid var(--ink);
+      padding-top: 1.5rem;
+    }
+  }
+
+  /* STANDINGS TABLES */
+  .data-box {
+    border: 1px solid var(--ink);
+    padding: 0.8rem;
+    background: var(--off-white);
+  }
+
+  .table-title,
+  :global(.wp-rendered-content h3) {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 0.3rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.5px;
+  }
+
+  .standings-table,
+  :global(.wp-rendered-content table) {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-align: right;
+  }
+
+  .standings-table th,
+  :global(.wp-rendered-content th) {
+    border-bottom: 1px solid var(--ink);
+    padding: 0.2rem 0.4rem;
+    font-weight: 700;
+  }
+
+  .standings-table td,
+  :global(.wp-rendered-content td) {
+    padding: 0.25rem 0.4rem;
+    border-bottom: 1px dotted var(--ink);
+  }
+
+  .standings-table th:first-child,
+  .standings-table td:first-child,
+  :global(.wp-rendered-content th:first-child),
+  :global(.wp-rendered-content td:first-child) {
+    text-align: left;
+  }
+
+  :global(#sports-page .sports-decoder-table) {
+    cursor: crosshair;
+    position: relative;
+  }
+
+  :global(#sports-page .sports-decoder-note) {
+    border: 1px solid #b42318;
+    background: var(--off-white);
+    clip-path: circle(0 at var(--uv-x, 50%) var(--uv-y, 50%));
+    color: #9b1c1c;
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    font-weight: 700;
+    line-height: 1.35;
+    margin-top: 0.75rem;
+    padding: 0.45rem;
+    transform: rotate(-1deg);
+    transition: clip-path 0.1s ease-out;
+  }
+
+  :global(#sports-page .sports-decoder-note.uv-active) {
+    clip-path: circle(42px at var(--uv-x, 50%) var(--uv-y, 50%));
+    text-shadow: 0 0 4px rgba(180, 35, 24, 0.35);
+  }
+
+  .highlight-row {
+    font-weight: 900;
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  :global(#tech-page .tech-cipher-letter) {
+    background: var(--ink);
+    color: var(--ink);
+    display: inline;
+    transition:
+      background 0.35s ease,
+      color 0.35s ease;
+  }
+
+  :global(#tech-page .tech-cipher-letter.revealed) {
+    background: rgba(42, 32, 15, 0.52);
+    color: #241e10;
+    text-shadow: 0 0 4px rgba(230, 174, 28, 0.65);
+  }
+
+  /* -------------------------------------------------------------
+	   STRICT NEWSPAPER COLUMN FORMATTING FOR DYNAMIC WORDPRESS HTML 
+	   ------------------------------------------------------------- */
+  :global(.wp-rendered-content h1) {
+    font-family: var(--font-serif);
+    text-transform: uppercase;
+    font-size: clamp(2rem, 3.5vw, 3.2rem);
+    font-weight: 900;
+    line-height: 1.05;
+    margin: 0.5rem 0 1rem 0;
+    column-span: all; /* Main title spans across all columns */
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 0.5rem;
+  }
+
+  :global(.wp-rendered-content h2) {
+    font-family: var(--font-serif);
+    text-transform: uppercase;
+    font-size: clamp(1.3rem, 2vw, 1.8rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin: 1.5rem 0 0.5rem 0;
+    break-after: avoid;
+    break-inside: avoid;
+  }
+
+  :global(.wp-rendered-content h3),
+  :global(.wp-rendered-content h4) {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin: 0.5rem 0 0.8rem 0;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 0.2rem;
+    break-after: avoid;
+    break-inside: avoid;
+  }
+
+  :global(.wp-rendered-content p) {
+    font-family: serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 0.8rem;
+    text-align: justify;
+    orphans: 2;
+    widows: 2;
+  }
+
+  :global(.wp-rendered-content blockquote) {
+    background: var(--off-white);
+    border: 2px solid var(--ink);
+    border-left: 5px solid var(--ink);
+    padding: 0.8rem;
+    margin: 1rem 0;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    line-height: 1.4;
+    break-inside: avoid;
+  }
+
+  :global(.wp-rendered-content figure),
+  :global(.wp-rendered-content img) {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1rem 0;
+    border: 1px solid var(--ink);
+    break-inside: avoid;
+  }
+
+  :global(.wp-rendered-content .wp-block-columns),
+  :global(.wp-rendered-content .wp-block-group) {
+    break-inside: avoid;
+    margin-bottom: 1.5rem;
+  }
+
+  /* SECTION 3 BOTTOM BAR */
+  .section-3 {
+    width: 100%;
+    margin-top: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 8pt;
+    text-transform: uppercase;
+    border-top: 2px solid var(--ink);
+    padding-top: 1rem;
+  }
+
+  .section-3 > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .buttons :global(svg) {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+
+  /* SCROLL INDICATOR BUTTON */
+  .scroll-indicator {
+    position: fixed;
+    bottom: 6rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    background: var(--off-white);
+    border: 2px solid var(--ink);
+    padding: 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    border-radius: 50px;
+    box-shadow: 0px 8px 0px var(--ink);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    animation: bounce 2s infinite;
+  }
+
+  @keyframes bounce {
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+      transform: translateX(-50%) translateY(0);
+    }
+    40% {
+      transform: translateX(-50%) translateY(-10px);
+    }
+    60% {
+      transform: translateX(-50%) translateY(-5px);
+    }
+  }
+
+  .scroll-indicator:hover {
+    animation-play-state: paused;
+    background: var(--ink);
+    color: var(--off-white);
+    transform: translateX(-50%) translateY(-2px);
+    box-shadow: 0px 4px 0px var(--ink);
+  }
+
+  .scroll-text {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    writing-mode: vertical-rl;
+    letter-spacing: 2px;
+    color: var(--ink);
+  }
+
+  .scroll-indicator:hover .scroll-text,
+  .scroll-indicator:hover .scroll-icon {
+    color: var(--off-white);
+  }
+
+  .scroll-icon {
+    font-size: 1.2rem;
+  }
+</style>

@@ -4,8 +4,8 @@ import { getWPMenu } from '../lib/wp';
 const navItems = await getWPMenu();
 const pathname = Astro.url.pathname;
 const isHome = pathname === '/' || pathname === '';
+const isGameRoute = pathname.startsWith('/game');
 
-// Section anchor links used specifically on the home page
 const homeSections = [
   { href: '#front-page', label: 'Front' },
   { href: '#tech-page', label: 'Tech' },
@@ -14,41 +14,91 @@ const homeSections = [
   { href: '#classifieds-page', label: 'Classifieds' },
 ];
 
-// Fallback/Secondary links shown on non-home pages
 const innerPageLinks = [
-  { href: '/', label: '← Front Page' },
+  { href: '/game/front', label: '← Front' },
   { href: '/#top', label: 'Top' },
+];
+
+const chronicleSections = [
+  { name: "Front", href: "/game/front" },
+  { name: "Tech", href: "/game/tech" },
+  { name: "Sports", href: "/game/sports" },
+  { name: "Opinion", href: "/game/opinion" },
+  { name: "Classifieds", href: "/game/classifieds" },
 ];
 ---
 
 <nav id="global-nav" class="global-nav">
   <div class="nav-brand">EDITION_1989</div>
-  <div class="nav-primary">
-    {isHome
-      ? homeSections.map((section) => (
-          <a href={section.href}>{section.label.toUpperCase()}</a>
-        ))
-      : innerPageLinks.map((link) => (
-          <a href={link.href}>{link.label.toUpperCase()}</a>
-        ))
-    }
-  </div>
+  
   <div class="nav-links">
-    <!-- Dynamically injected WordPress pages -->
-    {navItems.map((item) => (
-      <a href={item.url}>{item.title.toUpperCase()}</a>
-    ))}    
+    {navItems.map((item) => {
+      const isGame = (item as any).classes?.includes('game-menu-item') || item.title.toLowerCase().includes('game');
+
+      return (
+        <div class={isGame ? 'game-wrapper' : 'nav-item-wrapper'}>
+          <a 
+            href={item.url} 
+            class:list={[
+              { 'game-link': isGame },
+              { 'active': isGame ? isGameRoute : pathname === item.url }
+            ]}
+            id={isGame ? 'game-menu-link' : undefined}
+          >
+            {item.title.toUpperCase()}
+          </a>
+
+          {isGame && (
+            <div id="game-dropdown" class="game-dropdown">
+              <span class="dropdown-header">SECTIONS</span>
+              {chronicleSections.map((section) => (
+                <a 
+                  href={section.href} 
+                  class:list={[
+                    'dropdown-item',
+                    { 'active-section': pathname === section.href }
+                  ]}
+                >
+                  {section.name.toUpperCase()}
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+      );
+    })}    
   </div>
 
+<!--   <div class="nav-primary">
+    {isGameRoute ? (
+      chronicleSections.map((section) => (
+        <a 
+          href={section.href} 
+          class:list={[{ 'active': pathname === section.href }]}
+        >
+          {section.name.toUpperCase()}
+        </a>
+      ))
+    ) : isHome ? (
+      homeSections.map((section) => (
+        <a href={section.href}>{section.label.toUpperCase()}</a>
+      ))
+    ) : (
+      innerPageLinks.map((link) => (
+        <a href={link.href}>{link.label.toUpperCase()}</a>
+      ))
+    )}
+  </div> -->
 </nav>
 
 <script>
-  function initNavScroll() {
+  function initNav() {
     const nav = document.getElementById('global-nav');
+    const gameWrapper = document.querySelector('.game-wrapper');
+
     if (!nav) return;
 
     function updateNav() {
-      // Minimizes if scrolled past 50px OR if the page is too short to scroll much
       if (window.scrollY > 50) {
         nav?.classList.add('minimized');
       } else {
@@ -56,45 +106,44 @@ const innerPageLinks = [
       }
     }
 
-    // Run once on load to set initial state
-    updateNav();
+    // Toggle dropdown visibility via CSS hover/focus-within without blocking anchor clicks
+    if (gameWrapper) {
+      const dropdown = gameWrapper.querySelector('.game-dropdown');
+      
+      gameWrapper.addEventListener('mouseenter', () => {
+        dropdown?.classList.add('show');
+      });
+      
+      gameWrapper.addEventListener('mouseleave', () => {
+        dropdown?.classList.remove('show');
+      });
+    }
 
-    // Attach scroll event
+    updateNav();
     window.removeEventListener('scroll', updateNav);
     window.addEventListener('scroll', updateNav);
   }
 
-  // Execute on initial DOM load
-  document.addEventListener('DOMContentLoaded', initNavScroll);
-
-  // Execute on Astro View Transitions navigation (if enabled)
-  document.addEventListener('astro:page-load', initNavScroll);
+  document.addEventListener('DOMContentLoaded', initNav);
+  document.addEventListener('astro:page-load', initNav);
 </script>
 
 <style>
   .global-nav {
-    /* Positioning */
     position: fixed;
     bottom: 2rem;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
-
-    /* Layout */
     display: flex;
     align-items: center;
     gap: 2rem;
     padding: 0.75rem 2rem;
-
-    /* "Modern Editorial" Look" */
-    background: rgba(248, 247, 242, 0.8);
+    background: rgba(248, 247, 242, 0.85);
     backdrop-filter: blur(12px);
     border: 1px solid var(--ink);
     border-radius: 100px;
-
-    /* Shadow for depth */
-    box-shadow: 0 10px 30px rgba(0, 10px, 30px, rgba(0,0,0,0.1));
-
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
 
@@ -102,22 +151,8 @@ const innerPageLinks = [
     padding: 0.4rem 1.2rem;
     gap: 1rem;
     bottom: 1rem;
-    background: rgba(248, 247, 242, 0.85);
+    background: rgba(248, 247, 242, 0.92);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-
-  .nav-primary a {
-    color: var(--ink);
-    text-decoration: none;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-
-  .nav-primary {
-    display: flex;
-    gap: 1.5rem;
   }
 
   .nav-brand {
@@ -129,10 +164,8 @@ const innerPageLinks = [
     border-right: 1px solid var(--ink);
     padding-right: 1.5rem;
     text-transform: uppercase;
-
     transition: all 0.4s ease;
     max-width: 200px;
-    opacity: 1;
     white-space: nowrap;
     overflow: hidden;
   }
@@ -146,6 +179,7 @@ const innerPageLinks = [
 
   .nav-links {
     display: flex;
+    align-items: center;
     gap: 1.5rem;
   }
 
@@ -161,8 +195,7 @@ const innerPageLinks = [
     position: relative;
   }
 
-  /* The hover headline Underline */
-  .nav-links a::after {
+  .nav-links a:not(.game-link)::after {
     content: '';
     position: absolute;
     bottom: -4px;
@@ -173,31 +206,129 @@ const innerPageLinks = [
     transition: width 0.3s ease;
   }
 
-  .nav-links a:hover::after {
+  .nav-links a:not(.game-link):hover::after {
     width: 100%;
   }
 
-  .nav-links a:hover {
-    color: var(--accent);
-  }
-
-  /* Active State (to show what page on) */
+  .nav-links a:hover,
   .nav-links a.active {
     color: var(--accent);
   }
 
-  /* Mobile Responsive Nav */
+  /* Game Button Pill - Pure Anchor Tag */
+  .game-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .game-link {
+    background-color: var(--ink) !important;
+    color: var(--paper, #f8f7f2) !important;
+    padding: 0.35rem 0.9rem;
+    border-radius: 50px;
+    font-size: 0.75rem !important;
+    letter-spacing: 1px !important;
+    display: inline-block;
+  }
+
+  .game-link:hover,
+  .game-link.active {
+    background-color: var(--ink) !important;
+    color: var(--paper, #f8f7f2) !important;
+    opacity: 0.85;
+  }
+
+  /* Dropdown Menu with Seamless Bridge */
+  .game-dropdown {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 0.5rem);
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 150px;
+    padding: 0.6rem;
+    background-color: var(--ink);
+    border: 1px solid var(--ink);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    flex-direction: column;
+    gap: 0.3rem;
+    z-index: 1010;
+  }
+
+  /* Invisible bridge to prevent mouse leaving container */
+  .game-dropdown::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 0.75rem;
+  }
+
+  .game-dropdown.show,
+  .game-wrapper:hover .game-dropdown {
+    display: flex;
+  }
+
+  .dropdown-header {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--accent);
+    letter-spacing: 1px;
+    margin-bottom: 0.2rem;
+    padding-left: 0.4rem;
+  }
+
+  .dropdown-item {
+    color: var(--paper, #f8f7f2) !important;
+    font-size: 0.7rem !important;
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+  }
+
+  .dropdown-item:hover,
+  .dropdown-item.active-section {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: var(--accent) !important;
+  }
+
+  /* Right Section Navigation */
+  .nav-primary {
+    display: flex;
+    gap: 1.5rem;
+    border-left: 1px solid var(--ink);
+    padding-left: 1.5rem;
+  }
+
+  .nav-primary a {
+    color: var(--ink);
+    text-decoration: none;
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.2s ease;
+  }
+
+  .nav-primary a:hover,
+  .nav-primary a.active {
+    color: var(--accent);
+  }
+
   @media (max-width: 768px) {
     .global-nav {
-      width: 90%;
+      width: 92%;
       bottom: 1rem;
       gap: 1rem;
       padding: 0.75rem 1rem;
       justify-content: flex-start;
       overflow-x: auto;
       white-space: nowrap;
-      -webkit-overflow-scrolling: touch;
-      /* Hide scrollbar for cleaner look */
       scrollbar-width: none; 
     }
     
@@ -207,10 +338,6 @@ const innerPageLinks = [
 
     .nav-brand {
       display: none;
-    }
-    
-    .nav-primary, .nav-links {
-      gap: 1rem;
     }
   }
 </style>

@@ -1,0 +1,302 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Masthead from '../components/Masthead.astro';
+
+interface Props {
+  title: string;
+  content?: any;
+}
+
+interface Props {
+  title: string;
+  issueDate?: string;
+  editionName?: string;
+  volume?: string;
+  issueNumber?: string;
+  pageId?: string;
+}
+
+const { title, content, issueDate, editionName, volume, issueNumber, pageId } = Astro.props;
+---
+<BaseLayout title={title}>
+  <article id={pageId} class="newspaper-wrapper">
+    <Masthead 
+      issueDate={issueDate} 
+      editionName={editionName} 
+      volume={volume} 
+      issueNumber={issueNumber} 
+    />
+    <slot />
+  </article>
+</BaseLayout>
+<style>
+  .newspaper-wrapper {
+    width: 100%;
+    min-height: 100vh;
+  }
+
+  :global(.content-wrapper) {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 1.5rem;
+  }
+
+  :global(.edition-banner) {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+    padding: 0.4rem 0;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+  }
+
+  /* Target .newspaper-columns rendered inside the slotted content */
+  :global(.newspaper-columns) {
+    column-count: 3;
+    column-gap: 2rem;
+    column-rule: 1px solid var(--ink);
+    border-bottom: 4px solid var(--ink);
+    padding-bottom: 2rem;
+    width: 100%;
+  }
+
+  @media (max-width: 1024px) {
+    :global(.newspaper-columns) {
+      column-count: 2;
+    }
+  }
+
+  @media (max-width: 650px) {
+    :global(.newspaper-columns) {
+      column-count: 1;
+      column-rule: none;
+    }
+  }
+
+  /* STATIC ARTICLE BREAK PREVENTIONS */
+  :global(.news-article) {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    display: block;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  :global(.lead-article) {
+    column-span: all;
+    border-bottom: 2px solid var(--ink);
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+  }
+
+  :global(.tagline) {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.3rem;
+  }
+
+  :global(.headline-h1) {
+    font-family: var(--font-serif);
+    text-transform: uppercase;
+    font-size: clamp(2rem, 3.5vw, 3.2rem);
+    font-weight: 900;
+    line-height: 1.05;
+    margin: 0.4rem 0;
+  }
+
+  :global(.headline-h2) {
+    font-family: var(--font-serif);
+    text-transform: uppercase;
+    font-size: clamp(1.3rem, 2vw, 1.8rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin: 0.4rem 0;
+  }
+
+  :global(.byline) {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--ink);
+    margin-bottom: 0.8rem;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 0.2rem;
+    display: inline-block;
+  }
+
+  :global(.article-body) {
+    font-family: serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    text-align: justify;
+  }
+
+  :global(.article-body p) {
+    margin-bottom: 0.8rem;
+  }
+
+  :global(.drop-cap::first-letter) {
+    font-family: var(--font-serif);
+    font-size: 3.5rem;
+    float: left;
+    line-height: 0.75;
+    padding-bottom: 0.1rem;
+    margin-right: 6px;
+    color: var(--ink);
+    font-weight: 900;
+  }
+
+  :global(.developer-commentary) {
+    background: var(--off-white);
+    border: 2px solid var(--ink);
+    border-left: 5px solid var(--ink);
+    padding: 0.8rem;
+    margin: 1rem 0 0.5rem 0;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  :global(.developer-commentary p) {
+    margin-bottom: 0.4rem;
+  }
+
+  :global(.developer-commentary p:last-child) {
+    margin-bottom: 0;
+  }
+
+  /* -------------------------------------------------------------
+	   STRICT NEWSPAPER COLUMN FORMATTING FOR DYNAMIC WORDPRESS HTML 
+	------------------------------------------------------------- */
+  :global(.wp-rendered-content h1) {
+    font-family: var(--font-serif);
+    text-transform: uppercase;
+    font-size: clamp(2rem, 3.5vw, 3.2rem);
+    font-weight: 900;
+    line-height: 1.05;
+    margin: 0.5rem 0 1rem 0;
+    column-span: all; /* Main title spans across all columns */
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 0.5rem;
+  }
+
+  :global(.wp-rendered-content h2) {
+    font-family: var(--font-serif);
+    text-transform: uppercase;
+    font-size: clamp(1.3rem, 2vw, 1.8rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin: 1.5rem 0 0.5rem 0;
+    break-after: avoid;
+    break-inside: avoid;
+  }
+
+  :global(.wp-rendered-content h3),
+  :global(.wp-rendered-content h4) {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin: 0.5rem 0 0.8rem 0;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 0.2rem;
+    break-after: avoid;
+    break-inside: avoid;
+  }
+
+  :global(.wp-rendered-content p) {
+    font-family: serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 0.8rem;
+    text-align: justify;
+    orphans: 2;
+    widows: 2;
+  }
+
+  :global(.wp-rendered-content blockquote) {
+    background: var(--off-white);
+    border: 2px solid var(--ink);
+    border-left: 5px solid var(--ink);
+    padding: 0.8rem;
+    margin: 1rem 0;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    line-height: 1.4;
+    break-inside: avoid;
+  }
+
+  :global(.wp-rendered-content figure),
+  :global(.wp-rendered-content img) {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1rem 0;
+    border: 1px solid var(--ink);
+    break-inside: avoid;
+  }
+
+  :global(.wp-rendered-content .wp-block-columns),
+  :global(.wp-rendered-content .wp-block-group) {
+    break-inside: avoid;
+    margin-bottom: 1.5rem;
+  }
+
+  /* SECTION 3 BOTTOM BAR */
+  :global(.section-3) {
+    width: 100%;
+    margin-top: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 8pt;
+    text-transform: uppercase;
+    border-top: 2px solid var(--ink);
+    padding-top: 1rem;
+  }
+
+  :global(.section-3 > div) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  :global(.buttons) {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .buttons :global(svg) {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+</style>
+<script>
+      import { initializeNewspaperFeatures } from '../lib/newspaper';
+
+      document.addEventListener('astro:page-load', () => {
+        initializeNewspaperFeatures();
+      });
+
+      // Fallback for non-SPA navigation or initial DOM load
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeNewspaperFeatures);
+      } else {
+        initializeNewspaperFeatures();
+      }
+</script>

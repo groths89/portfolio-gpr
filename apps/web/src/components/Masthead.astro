@@ -1,34 +1,52 @@
 ---
-// components/Masthead.astro
+// src/components/Masthead.astro
+interface Props {
+  volume?: string;
+  issueNumber?: string;
+  issueDate?: string;
+  editionName?: string;
+  price?: string;
+  weather?: string;
+}
+
+const {
+  volume = "VOL. LXIV",
+  issueNumber = "NO. 32,841",
+  issueDate = "Thursday, June 12, 1989",
+  editionName = "BEST OF 1989 EDITION",
+  price = "$1.50",
+  weather = "Late Edition: Clear, Mild, Tonight; Sunny Tomorrow",
+} = Astro.props;
 ---
+
 <section id="mainhead" class="header-wrapper">
-	<header id="masthead" class="masthead">
-		<div id="dateline" class="dateline">
-			<div id="left-ear">
-				<p>VOL. LXIV ... NO. 32,841</p>
-			</div>
-			<div id="center" class="centerhead">
-				<p>Late Edition: Clear, Mild, Tonight; Sunny Tomorrow</p>
-			</div>
-			<div id="right-ear">
-				<p>Thursday, June 12, 1989</p>
-			</div>
-		</div>
-		<div id="nameplate" class="nameplate">
-			<h1>The Digital Chronicle</h1>
-		</div>
-		<div id="sectionheader" class="sectionheader">
-			<div class="edition-bar">
-				<span class="edition-item">NEW YORK EDITION</span>
-				<span class="edition-divider">•</span>
-				<span class="edition-item">PRICE: $1.50</span>
-				<span class="edition-divider">•</span>
-				<span class="edition-item">ESTABLISHED 1989</span>
-				<span class="edition-divider">•</span>
-				<span class="edition-item">ISSN 1040-6190</span>
-			</div>
-		</div>
-	</header>
+  <header id="masthead" class="masthead">
+    <div id="dateline" class="dateline">
+      <div id="left-ear">
+        <p>{volume} ... {issueNumber}</p>
+      </div>
+      <div id="center" class="centerhead">
+        <p>{weather}</p>
+      </div>
+      <div id="right-ear">
+        <p>{issueDate}</p>
+      </div>
+    </div>
+    <div id="nameplate" class="nameplate">
+      <h1>The Digital Chronicle</h1>
+    </div>
+    <div id="sectionheader" class="sectionheader">
+      <div class="edition-bar">
+        <span class="edition-item">{editionName}</span>
+        <span class="edition-divider">•</span>
+        <span class="edition-item">PRICE: {price}</span>
+        <span class="edition-divider">•</span>
+        <span class="edition-item">ESTABLISHED 1989</span>
+        <span class="edition-divider">•</span>
+        <span class="edition-item">ISSN 1040-6190</span>
+      </div>
+    </div>
+  </header>
 </section>
 <style>
   /* Home Page: Masthead */

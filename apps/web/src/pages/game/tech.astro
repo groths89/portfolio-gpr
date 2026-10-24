@@ -1,0 +1,68 @@
+---
+import NewspaperLayout from "../../layouts/NewspaperLayout.astro";
+import { library, icon } from "@fortawesome/fontawesome-svg-core";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faRss } from "@fortawesome/free-solid-svg-icons";
+import { getSingleWPPage, type WPPostWithEmbed } from "../../lib/wp.ts";
+
+library.add(faEnvelope, faRss);
+
+const emailicon = icon({ prefix: "fas", iconName: "envelope" }).html.join("");
+const rssicon = icon({ prefix: "fas", iconName: "rss" }).html.join("");
+
+const wpTechPage: WPPostWithEmbed | null = await getSingleWPPage("tech-page");
+---
+
+<NewspaperLayout
+  pageId="tech-page" 
+  title="Tech | Newspaper"
+  issueDate="MARCH 12, 1989"
+  volume="VOL. 104"
+  issueNumber="NO. 72"
+  editionName="WORLD WIDE WEB PROPOSAL EDITION"
+>
+    <section id="content" class="content-wrapper">
+      {
+        wpTechPage ? (
+          <div
+            class="wp-rendered-content newspaper-columns"
+            set:html={wpTechPage.content.rendered}
+          />
+        ) : (
+          <div class="newspaper-columns" />
+        )
+      }
+            <div id="section-3" class="section-3">
+        <div>
+          <div>
+            <span>Quick Clips:</span>
+          </div>
+          <div>Weather: Cloud Infrastructure Stable</div>
+          <div>Stocks: Semiconductor Futures Rising</div>
+          <div>Obituaries: Legacy IE Support Laid to Rest</div>
+          <div id="buttons" class="buttons">
+            <Fragment set:html={rssicon} />
+            <Fragment set:html={emailicon} />
+          </div>
+        </div>
+      </div>
+    </section>
+</NewspaperLayout>
+
+<style>
+  /* TECH PAGE SPECIFIC STYLING */
+  :global(#tech-page .tech-cipher-letter) {
+    background: var(--ink);
+    color: var(--ink);
+    display: inline;
+    transition:
+      background 0.35s ease,
+      color 0.35s ease;
+  }
+
+  :global(#tech-page .tech-cipher-letter.revealed) {
+    background: rgba(42, 32, 15, 0.52);
+    color: #241e10;
+    text-shadow: 0 0 4px rgba(230, 174, 28, 0.65);
+  }
+</style>
